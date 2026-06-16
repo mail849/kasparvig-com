@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaspar Vig</title>
+
+<style>
+body {
+  margin: 0;
+  background: #111;
+  color: #a020f0;
+  font-family: futura, serif;
+  line-height: 1.6;
+}
+
+/* PIXELHEST */
+.horse-wrap {
+  position: fixed;
+  top: 20%;
+  left: 10%;
+  z-index: 50;
+  width: 120px;
+  height: 90px;
+  pointer-events: none;
+  animation:
+    horseFloat 16s linear infinite,
+    horseBounce .8s infinite alternate;
+}
+
+.pixel-horse {
+  position: relative;
+  width: 120px;
+  height: 90px;
+  image-rendering: pixelated;
+}
+
+.block {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #e8e1d0;
+  box-shadow: 0 0 0 2px #111;
+}
+
+.dark { background: #222; }
+.eye { background: #00e5ff; }
+.mane { background: #ff0055; }
+
+.horse-head { left: 72px; top: 12px; }
+.horse-snout { left: 96px; top: 24px; }
+.horse-neck { left: 60px; top: 24px; }
+.horse-body1 { left: 24px; top: 36px; }
+.horse-body2 { left: 36px; top: 36px; }
+.horse-body3 { left: 48px; top: 36px; }
+.horse-body4 { left: 60px; top: 36px; }
+.horse-back1 { left: 36px; top: 24px; }
+.horse-back2 { left: 48px; top: 24px; }
+.horse-leg1 { left: 30px; top: 48px; }
+.horse-leg2 { left: 54px; top: 48px; }
+.horse-leg3 { left: 78px; top: 48px; }
+.horse-foot1 { left: 30px; top: 60px; }
+.horse-foot2 { left: 54px; top: 60px; }
+.horse-foot3 { left: 78px; top: 60px; }
+.horse-tail { left: 12px; top: 36px; }
+.horse-eye { left: 84px; top: 12px; }
+.horse-mane1 { left: 60px; top: 12px; }
+.horse-mane2 { left: 48px; top: 12px; }
+
+.horse-wrap {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.cursor-horse {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  width: 120px;
+  height: 90px;
+  pointer-events: none;
+  transform: translate(-999px, -999px) scale(0.6);
+  transform-origin: top left;
+  animation: horseBounce .8s infinite alternate;
+}
+
+.fire-pixel {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  z-index: 49;
+  pointer-events: none;
+  animation: fireExplode .7s linear forwards;
+}
+
+@keyframes fireExplode {
+  from {
+    opacity: 1;
+    transform: translate(0,0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform:
+      translate(
+        calc(var(--x) * 1px),
+        calc(var(--y) * 1px)
+      )
+      scale(.2);
+  }
+}
+
+@keyframes horseFloat {
+  0%   { transform: translate(0vw,0vh) rotate(0deg); }
+  20%  { transform: translate(65vw,10vh) rotate(8deg); }
+  40%  { transform: translate(40vw,55vh) rotate(-6deg); }
+  60%  { transform: translate(75vw,35vh) rotate(10deg); }
+  80%  { transform: translate(15vw,70vh) rotate(-8deg); }
+  100% { transform: translate(0vw,0vh) rotate(0deg); }
+}
+
+@keyframes horseBounce {
+  from { margin-top: 0; }
+  to   { margin-top: -14px; }
+}
+
+/* HEADER */
+header {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+header img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #a020f0;
+  padding: 20px;
+}
+
+/* GLITCH TITEL */
+.glitch-title {
+  position: relative;
+  display: inline-block;
+  font-family: "helvetica", monospace;
+  font-size: 5rem;
+  font-weight: bold;
+  color: #a020f0;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin: 0;
+}
+
+.glitch-title::before,
+.glitch-title::after {
+  content: "Kaspar Vig";
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.glitch-title:hover::before {
+  opacity: .8;
+  color: #ff0040;
+  transform: translate(-10px,4px);
+}
+
+.glitch-title:hover::after {
+  opacity: .8;
+  color: #00e5ff;
+  transform: translate(12px,-6px);
+}
+
+.glitch-title:hover {
+  animation: datamosh .15s infinite;
+}
+
+@keyframes datamosh {
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(-4px,2px); }
+  50%  { transform: translate(6px,-2px); }
+  75%  { transform: translate(-2px,4px); }
+  100% { transform: translate(0,0); }
+}
+
+/* PIXELSTØV FRA TITEL */
+.pixel {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+  animation: explode .8s linear forwards;
+}
+
+@keyframes explode {
+  from {
+    opacity: 1;
+    transform: translate(0,0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform:
+      translate(
+        calc(var(--x) * 1px),
+        calc(var(--y) * 1px)
+      )
+      scale(.2);
+  }
+}
+
+nav a {
+  color: #a020f0;
+  text-decoration: none;
+  margin: 0 16px;
+  font-size: 1.35rem;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 0;
+}
+
+section {
+  max-width: 850px;
+  margin: auto;
+  padding: 80px 20px;
+}
+
+footer {
+  text-align: center;
+  padding: 40px;
+  color: #a020f0;
+}
+
+@media (max-width: 900px) {
+  .glitch-title {
+    font-size: 3.5rem;
+  }
+
+  .horse-wrap {
+    left: 4%;
+    top: 12%;
+    transform: scale(0.8);
+    transform-origin: top left;
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    padding: 16px;
+  }
+
+  .glitch-title {
+    font-size: 2.4rem;
+    letter-spacing: 0.05em;
+  }
+
+  .content p {
+    font-size: 1.2rem !important;
+    margin: 14px 0 24px !important;
+  }
+
+  nav {
+    gap: 8px 0;
+  }
+
+  nav a {
+    margin: 0 10px;
+    font-size: 1.1rem;
+  }
+
+  section {
+    padding: 56px 18px;
+  }
+
+  footer {
+    padding: 28px 16px;
+  }
+
+  .horse-wrap {
+    left: 2%;
+    top: 8%;
+    transform: scale(0.62);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="horse-wrap" id="horse">
+  <div class="pixel-horse">
+    <div class="block horse-head"></div>
+    <div class="block horse-snout"></div>
+    <div class="block horse-neck"></div>
+    <div class="block horse-body1"></div>
+    <div class="block horse-body2"></div>
+    <div class="block horse-body3"></div>
+    <div class="block horse-body4"></div>
+    <div class="block horse-back1"></div>
+    <div class="block horse-back2"></div>
+    <div class="block horse-leg1"></div>
+    <div class="block horse-leg2"></div>
+    <div class="block horse-leg3"></div>
+    <div class="block horse-foot1 dark"></div>
+    <div class="block horse-foot2 dark"></div>
+    <div class="block horse-foot3 dark"></div>
+    <div class="block horse-tail mane"></div>
+    <div class="block horse-eye eye"></div>
+    <div class="block horse-mane1 mane"></div>
+    <div class="block horse-mane2 mane"></div>
+  </div>
+</div>
+
+<header>
+
+<video
+  autoplay
+  muted
+  loop
+  playsinline
+  style="
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  "
+>
+  <source src="forside.jpg" type="video/mp4">
+</video>
+<div class="overlay"></div>
+
+<div class="content">
+
+<h1 class="glitch-title" id="title">
+Kaspar Vig
+</h1>
+
+<nav>
+<a href="musik.html">Musik</a>
+<a href="visuelt-arbejde.html">Visuelt arbejde</a>
+<a href="undervisning.html">Undervisning</a>
+<a href="kontakt.html">Kontakt</a>
+</nav>
+
+</div>
+</header>
+
+<section id="musik">
+<h2>Musik</h2>
+<p>
+Kompositioner, sange og koncertformater
+mellem folk, jazz og eksperimenterende lyd.
+</p>
+</section>
+
+<section id="undervisning">
+<h2>Undervisning & kurser</h2>
+<p>
+Workshops og kreative undervisningsforløb.
+</p>
+</section>
+
+<section id="kontakt">
+<h2>Kontakt</h2>
+<p>mail@kasparvig.com</p>
+</section>
+
+<footer>
+© 2026 Kaspar Vig
+</footer>
+
+<script>
+const title = document.getElementById("title");
+
+function burstPixels() {
+  const rect = title.getBoundingClientRect();
+
+  for (let i = 0; i < 20; i++) {
+    const pixel = document.createElement("div");
+    pixel.classList.add("pixel");
+
+    pixel.style.left = Math.random() * rect.width + "px";
+    pixel.style.top = Math.random() * rect.height + "px";
+
+    pixel.style.background =
+      ["#fff","#ff0055","#00e5ff","#a020f0"]
+      [Math.floor(Math.random()*4)];
+
+    pixel.style.setProperty("--x", (Math.random()-0.5)*250);
+    pixel.style.setProperty("--y", (Math.random()-0.5)*180);
+
+    title.appendChild(pixel);
+
+    setTimeout(() => {
+      pixel.remove();
+    }, 800);
+  }
+}
+
+title.addEventListener("mouseenter", burstPixels);
+title.addEventListener("mousemove", burstPixels);
+
+const horse = document.getElementById("horse");
+horse.addEventListener("click", () => {
+  window.location.href = "index.html";
+});
+

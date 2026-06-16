@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undervisning</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #111;
+      color: #a020f0;
+      font-family: futura, serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .bg-video {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -3;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: -2;
+    }
+
+    .content {
+      text-align: center;
+      padding: 24px;
+    }
+
+    .glitch-title {
+      position: relative;
+      display: inline-block;
+      font-family: "helvetica", monospace;
+      font-size: clamp(2.6rem, 9vw, 6rem);
+      font-weight: bold;
+      color: #a020f0;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-shadow: 0 0 24px rgba(160, 32, 240, 0.5);
+      margin: 0 0 18px;
+    }
+
+    .glitch-title::before,
+    .glitch-title::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .glitch-title:hover::before {
+      opacity: 0.8;
+      color: #ff0040;
+      transform: translate(-10px, 4px);
+    }
+
+    .glitch-title:hover::after {
+      opacity: 0.8;
+      color: #00e5ff;
+      transform: translate(12px, -6px);
+    }
+
+    .glitch-title:hover {
+      animation: datamosh 0.15s infinite;
+    }
+
+    @keyframes datamosh {
+      0% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(-4px, 3px);
+      }
+      50% {
+        transform: translate(5px, -4px);
+      }
+      75% {
+        transform: translate(-2px, -1px);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
+    nav a {
+      color: #a020f0;
+      text-decoration: none;
+      font-size: 1.1rem;
+      border: 1px solid rgba(160, 32, 240, 0.45);
+      padding: 10px 14px;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    .horse-wrap {
+      position: fixed;
+      top: 20%;
+      left: 10%;
+      z-index: 5;
+      width: 120px;
+      height: 90px;
+      animation: horseFloat 16s linear infinite, horseBounce 0.8s infinite alternate;
+      pointer-events: none;
+    }
+
+    .pixel-horse {
+      position: relative;
+      width: 120px;
+      height: 90px;
+      image-rendering: pixelated;
+    }
+
+    .block {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #e8e1d0;
+      box-shadow: 0 0 0 2px #111;
+    }
+
+    .dark { background: #222; }
+    .eye { background: #00e5ff; }
+    .mane { background: #ff0055; }
+
+    .horse-head { left: 72px; top: 12px; }
+    .horse-snout { left: 96px; top: 24px; }
+    .horse-neck { left: 60px; top: 24px; }
+    .horse-body1 { left: 24px; top: 36px; }
+    .horse-body2 { left: 36px; top: 36px; }
+    .horse-body3 { left: 48px; top: 36px; }
+    .horse-body4 { left: 60px; top: 36px; }
+    .horse-back1 { left: 36px; top: 24px; }
+    .horse-back2 { left: 48px; top: 24px; }
+    .horse-leg1 { left: 30px; top: 48px; }
+    .horse-leg2 { left: 54px; top: 48px; }
+    .horse-leg3 { left: 78px; top: 48px; }
+    .horse-foot1 { left: 30px; top: 60px; }
+    .horse-foot2 { left: 54px; top: 60px; }
+    .horse-foot3 { left: 78px; top: 60px; }
+    .horse-tail { left: 12px; top: 36px; }
+    .horse-eye { left: 84px; top: 12px; }
+    .horse-mane1 { left: 60px; top: 12px; }
+    .horse-mane2 { left: 48px; top: 12px; }
+
+    .fire-pixel {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      z-index: 4;
+      pointer-events: none;
+      animation: fireExplode 0.7s linear forwards;
+    }
+
+    @keyframes horseFloat {
+      0%   { transform: translate(0vw, 0vh) rotate(0deg); }
+      20%  { transform: translate(65vw, 10vh) rotate(8deg); }
+      40%  { transform: translate(40vw, 55vh) rotate(-6deg); }
+      60%  { transform: translate(75vw, 35vh) rotate(10deg); }
+      80%  { transform: translate(15vw, 70vh) rotate(-8deg); }
+      100% { transform: translate(0vw, 0vh) rotate(0deg); }
+    }
+
+    @keyframes horseBounce {
+      from { margin-top: 0; }
+      to { margin-top: -14px; }
+    }
+
+    @keyframes fireExplode {
+      from {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: translate(calc(var(--x) * 1px), calc(var(--y) * 1px)) scale(0.2);
+      }
+    }
+  </style>
+</head>
+<body>
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="forside.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+
+  <div class="horse-wrap" id="horse">
+    <div class="pixel-horse">
+      <div class="block horse-head"></div><div class="block horse-snout"></div><div class="block horse-neck"></div>
+      <div class="block horse-body1"></div><div class="block horse-body2"></div><div class="block horse-body3"></div><div class="block horse-body4"></div>
+      <div class="block horse-back1"></div><div class="block horse-back2"></div>
+      <div class="block horse-leg1"></div><div class="block horse-leg2"></div><div class="block horse-leg3"></div>
+      <div class="block horse-foot1 dark"></div><div class="block horse-foot2 dark"></div><div class="block horse-foot3 dark"></div>
+      <div class="block horse-tail mane"></div><div class="block horse-eye eye"></div><div class="block horse-mane1 mane"></div><div class="block horse-mane2 mane"></div>
+    </div>
+  </div>
+
+  <main class="content">
+    <h1 class="glitch-title" data-text="Undervisning">Undervisning</h1>
+    <nav><a href="index.html">← Til forsiden</a></nav>
+  </main>
+
+  <script>
+    const horse = document.getElementById('horse');
+    function horseFireTrail() {
+      const rect = horse.getBoundingClientRect();
+      const fire = document.createElement('div');
+      fire.className = 'fire-pixel';
+      fire.style.left = (rect.left + 14 + Math.random() * 12) + 'px';
+      fire.style.top = (rect.top + 42 + Math.random() * 14) + 'px';
+      fire.style.background = ['#ff6a00', '#ff0055', '#ffd23f'][Math.floor(Math.random() * 3)];
+      fire.style.setProperty('--x', (Math.random() - 0.5) * 70);
+      fire.style.setProperty('--y', -20 - Math.random() * 60);
+      document.body.appendChild(fire);
+      setTimeout(() => fire.remove(), 700);
+    }
+    setInterval(horseFireTrail, 90);
+  </script>
+</body>
+</html>
