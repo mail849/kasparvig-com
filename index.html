@@ -154,6 +154,7 @@ header img {
   text-align: center;
   color: #a020f0;
   padding: 20px;
+  --hero-title-size: 5rem;
 }
 
 /* GLITCH TITEL */
@@ -161,7 +162,7 @@ header img {
   position: relative;
   display: inline-block;
   font-family: "helvetica", monospace;
-  font-size: 5rem;
+  font-size: var(--hero-title-size);
   font-weight: bold;
   color: #a020f0;
   text-transform: uppercase;
@@ -244,7 +245,7 @@ nav {
 
 .construction-note {
   margin: 18px 0 0;
-  font-size: 5rem;
+  font-size: var(--hero-title-size);
   letter-spacing: 0.08em;
   text-transform: lowercase;
 }
@@ -262,12 +263,8 @@ footer {
 }
 
 @media (max-width: 900px) {
-  .glitch-title {
-    font-size: 3.5rem;
-  }
-
-  .construction-note {
-    font-size: 3.5rem;
+  .content {
+    --hero-title-size: 3.5rem;
   }
 
   .horse-wrap {
@@ -284,17 +281,16 @@ footer {
   }
 
   .glitch-title {
-    font-size: 2.4rem;
     letter-spacing: 0.05em;
   }
 
-  .content p {
+  .content p:not(.construction-note) {
     font-size: 1.2rem !important;
     margin: 14px 0 24px !important;
   }
 
-  .content .construction-note {
-    font-size: 2.4rem !important;
+  .content {
+    --hero-title-size: 2.4rem;
   }
 
   nav {
@@ -384,21 +380,6 @@ Kaspar Vig
 
 </div>
 </header>
-
-<section id="musik">
-<h2>Musik</h2>
-<p>
-Kompositioner, sange og koncertformater
-mellem folk, jazz og eksperimenterende lyd.
-</p>
-</section>
-
-<section id="undervisning">
-<h2>Undervisning & kurser</h2>
-<p>
-Workshops og kreative undervisningsforløb.
-</p>
-</section>
 
 <section id="kontakt">
 <h2>Kontakt</h2>
