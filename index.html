@@ -1,17 +1,66 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="da" class="is-loading">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kaspar Vig</title>
+<link rel="preload" href="forside-desktop.webp" as="image" type="image/webp" media="(min-width: 641px)">
+<link rel="preload" href="forside-mobile.webp" as="image" type="image/webp" media="(max-width: 640px)">
 
 <style>
+html.is-loading {
+  background: #111;
+}
+
 body {
   margin: 0;
   background: #111;
   color: #ffd23f;
   font-family: futura, serif;
   line-height: 1.6;
+}
+
+.site-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: #111;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .35s ease, visibility 0s linear .35s;
+}
+
+.site-loader::after {
+  content: "";
+  width: 52px;
+  height: 4px;
+  background: #ffd23f;
+  animation: loadingPulse .8s ease-in-out infinite alternate;
+}
+
+@keyframes loadingPulse {
+  from { transform: scaleX(.25); opacity: .45; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+
+html.is-loading body {
+  overflow: hidden;
+}
+
+html.is-loading body > :not(.site-loader) {
+  opacity: 0;
+}
+
+html.is-ready body > :not(.site-loader) {
+  opacity: 1;
+  transition: opacity .35s ease;
+}
+
+html.is-ready .site-loader {
+  opacity: 0;
+  visibility: hidden;
 }
 
 /* PIXELHEST */
@@ -140,6 +189,7 @@ header img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 .overlay {
@@ -276,6 +326,14 @@ footer {
 }
 
 @media (max-width: 640px) {
+  header {
+    min-height: 100svh;
+  }
+
+  header img {
+    object-position: 68% center;
+  }
+
   .content {
     padding: 16px;
   }
@@ -317,9 +375,16 @@ footer {
   }
 }
 </style>
+<noscript><style>
+  html.is-loading body { overflow: auto; }
+  html.is-loading body > :not(.site-loader) { opacity: 1; }
+  .site-loader { display: none; }
+</style></noscript>
 </head>
 
 <body>
+
+<div class="site-loader" aria-label="Indlæser"></div>
 
 <div class="horse-wrap" id="horse">
   <div class="pixel-horse">
@@ -347,7 +412,11 @@ footer {
 
 <header>
 
-<img src="forside.jpg" alt="">
+<picture>
+  <source media="(max-width: 640px)" srcset="forside-mobile.webp" type="image/webp">
+  <source srcset="forside-desktop.webp" type="image/webp">
+  <img src="forside.jpg" alt="" width="3891" height="2650" fetchpriority="high">
+</picture>
 <div class="overlay"></div>
 
 <div class="content">
@@ -376,6 +445,27 @@ Kaspar Vig
 </footer>
 
 <script>
+const pageImage = document.querySelector("header img");
+
+async function revealPage() {
+  if (pageImage.decode) {
+    try {
+      await pageImage.decode();
+    } catch (error) {
+      // The load event still guarantees that the image request has completed.
+    }
+  }
+
+  if (document.fonts?.ready) {
+    await document.fonts.ready;
+  }
+
+  document.documentElement.classList.remove("is-loading");
+  document.documentElement.classList.add("is-ready");
+}
+
+window.addEventListener("load", revealPage, { once: true });
+
 const title = document.getElementById("title");
 
 function burstPixels() {
