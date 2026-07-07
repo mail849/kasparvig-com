@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>EKKO PARK - Crewplan</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #111;
+      --panel: rgba(255, 255, 255, 0.055);
+      --panel-strong: rgba(255, 210, 63, 0.12);
+      --text: #ffd23f;
+      --muted: rgba(255, 210, 63, 0.72);
+      --line: rgba(255, 210, 63, 0.26);
+      --white: rgba(255, 255, 255, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(135deg, rgba(255, 210, 63, 0.12), transparent 42%),
+        radial-gradient(circle at 85% 18%, rgba(255, 0, 85, 0.16), transparent 30%),
+        #111;
+      color: var(--text);
+      font-family: futura, "Trebuchet MS", Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    main {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    header {
+      padding: 24px 0 28px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 24px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-family: helvetica, Arial, sans-serif;
+      font-size: clamp(2.4rem, 10vw, 6rem);
+      line-height: 0.92;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-shadow: 0 0 24px rgba(255, 210, 63, 0.45);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: clamp(1rem, 3vw, 1.35rem);
+      margin-top: 14px;
+    }
+
+    .days {
+      display: grid;
+      gap: 24px;
+    }
+
+    .day {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.34);
+      overflow: hidden;
+    }
+
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px;
+      background: var(--panel-strong);
+      border-bottom: 1px solid var(--line);
+    }
+
+    h2 {
+      font-size: clamp(1.45rem, 5vw, 2.4rem);
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .date {
+      flex: 0 0 auto;
+      color: var(--white);
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .schedule {
+      display: grid;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: minmax(104px, 148px) 1fr;
+      gap: 14px;
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(255, 210, 63, 0.16);
+    }
+
+    .item:last-child {
+      border-bottom: 0;
+    }
+
+    .time {
+      color: var(--white);
+      font-family: helvetica, Arial, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .title {
+      font-size: clamp(1.05rem, 2.8vw, 1.25rem);
+      font-weight: 700;
+    }
+
+    .note {
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .subplan {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255, 210, 63, 0.18);
+      border-radius: 6px;
+      background: var(--panel);
+    }
+
+    .subplan div {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 10px;
+    }
+
+    .subplan span:first-child {
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    footer {
+      color: var(--muted);
+      padding-top: 22px;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      main {
+        width: min(100% - 22px, 980px);
+        padding-top: 18px;
+      }
+
+      header {
+        padding-top: 16px;
+      }
+
+      .day-header,
+      .item,
+      .subplan div {
+        grid-template-columns: 1fr;
+      }
+
+      .day-header {
+        display: grid;
+      }
+
+      .date {
+        text-align: left;
+      }
+
+      .item {
+        gap: 6px;
+        padding: 15px 14px;
+      }
+
+      .subplan {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>EKKO PARK</h1>
+      <p class="subtitle">Crewplan - 8. og 9. juli</p>
+    </header>
+
+    <section class="days" aria-label="Program">
+      <article class="day">
+        <div class="day-header">
+          <h2>Dag 1</h2>
+          <p class="date">8. juli</p>
+        </div>
+
+        <div class="schedule">
+          <section class="item">
+            <p class="time">11.00 - 15.55</p>
+            <div>
+              <h3 class="title">Lydprøve</h3>
+            </div>
+          </section>
+
+          <section class="item">
+            <p class="time">19.00 - 20.30</p>
+            <div>
+              <h3 class="title">Ekko Park: Where Music Grows</h3>
+            </div>
+          </section>
+
+          <section class="item">
+            <p class="time">21.15 - 22.15</p>
+            <div>
+              <h3 class="title">Koncert: Cæcilie Balling + Dybfølt</h3>
+            </div>
+          </section>
+
+          <section class="item">
+            <p class="time">22.15 - senest 24.00</p>
+            <div>
+              <h3 class="title">Nedtagning af instrumenter og PA</h3>
+              <p class="note">Scene og sal ryddes.</p>
+            </div>
+          </section>
+        </div>
+      </article>
+
+      <article class="day">
+        <div class="day-header">
+          <h2>Dag 2</h2>
+          <p class="date">9. juli</p>
+        </div>
+
+        <div class="schedule">
+          <section class="item">
+            <p class="time">12.30 - 15.45</p>
+            <div>
+              <h3 class="title">Opsætning af PA + lydprøve</h3>
+            </div>
+          </section>
+
+          <section class="item">
+            <p class="time">19.00 - 21.15</p>
+            <div>
+              <h3 class="title">Talk, film og pause</h3>
+              <div class="subplan" aria-label="Detaljer for talk, film og pause">
+                <div>
+                  <span>19.00 - 19.25</span>
+                  <span>Talk</span>
+                </div>
+                <div>
+                  <span>19.25 - 20.55</span>
+                  <span>Film: Ekko Park: Kandis for livet (længde 1:33)</span>
+                </div>
+                <div>
+                  <span>20.55 - 21.15</span>
+                  <span>Pause</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="item">
+            <p class="time">21.30 - 22.30</p>
+            <div>
+              <h3 class="title">Koncert: Troels Abrahamsen &amp; Christian Balvig</h3>
+            </div>
+          </section>
+
+          <section class="item">
+            <p class="time">22.30 -></p>
+            <div>
+              <h3 class="title">Mulighed for DJ i foyer</h3>
+              <p class="note">Lukketid aftales snarest.</p>
+            </div>
+          </section>
+
+          <section class="item">
+            <p class="time">Efter koncert</p>
+            <div>
+              <h3 class="title">Scene og sal ryddes</h3>
+              <p class="note">Kunstudstyr efterlades pænt i foyer.</p>
+              <p class="note">PA pakkes sammen og opstilles i foyer til afhentning.</p>
+            </div>
+          </section>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      <p>Intern crewside. Del kun linket med holdet.</p>
+    </footer>
+  </main>
+</body>
+</html>
