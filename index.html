@@ -38,7 +38,7 @@
     .section-head { margin-bottom:48px; }
     .section-index { margin:0; color:var(--muted); font-size:clamp(.95rem,1.5vw,1.2rem); font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
     .current-project-list { max-width:960px; border-top:1px solid var(--line); }
-    .current-project { display:grid; grid-template-columns:minmax(120px,.65fr) minmax(0,2fr) minmax(160px,.75fr) auto; gap:22px; align-items:start; padding:25px 0; border-bottom:1px solid var(--line); color:inherit; text-decoration:none; }
+    .current-project { display:grid; grid-template-columns:minmax(120px,.65fr) minmax(0,2fr) auto; gap:22px; align-items:start; padding:25px 0; border-bottom:1px solid var(--line); color:inherit; text-decoration:none; }
     .current-project:hover .current-project-title { text-decoration:underline; text-underline-offset:5px; }
     .current-project-meta { margin:0; color:var(--muted); font-size:.74rem; font-weight:700; letter-spacing:.08em; line-height:1.45; text-transform:uppercase; }
     .current-project-title { margin:0; font-size:clamp(1.25rem,2vw,1.7rem); font-weight:400; line-height:1.1; }
@@ -46,12 +46,7 @@
     .current-project-description { grid-column:2 / 3; margin:10px 0 0; max-width:680px; font-size:1rem; line-height:1.4; }
     .current-project-collaboration { grid-column:2 / 3; margin:12px 0 0; color:var(--muted); font-size:.86rem; line-height:1.4; }
     .current-project-collaboration a { color:inherit; text-decoration-thickness:1px; text-underline-offset:3px; }
-    .current-project-image { grid-column:3; grid-row:1 / span 2; display:block; width:100%; aspect-ratio:4 / 3; overflow:hidden; border:1px solid var(--line); background:var(--ink); color:var(--paper); text-decoration:none; }
-    .current-project-image img { width:100%; height:100%; display:block; object-fit:cover; object-position:center; transition:transform .25s ease; }
-    .current-project:hover .current-project-image img { transform:scale(1.025); }
-    .current-project-image--churchchill { display:grid; place-items:end start; padding:14px; background:#202b53; color:#f0e8d6; font-size:.78rem; font-weight:700; letter-spacing:.12em; line-height:1.2; text-transform:uppercase; }
-    .current-project-image--churchchill span { max-width:10ch; }
-    .current-project-arrow { grid-column:4; grid-row:1 / span 2; align-self:center; font-size:1.5rem; }
+    .current-project-arrow { grid-column:3; grid-row:1 / span 2; align-self:center; font-size:1.5rem; }
     h2 { margin:0 0 16px; font-size:clamp(2.3rem,5vw,4.8rem); font-weight:500; line-height:.94; letter-spacing:-.05em; }
     .section-copy { max-width:630px; margin:0; font-size:clamp(1.08rem,1.8vw,1.35rem); line-height:1.35; }
     .status { margin:0; color:var(--muted); font-size:1.15rem; }
@@ -137,14 +132,13 @@
       .main-nav { max-width:245px; gap:4px 12px; font-size:.62rem; }
       main, footer { width:calc(100% - 36px); }
       .section { padding:64px 18px 72px; }
-      .section--current { background-position:85% center; }
+      .section--current { background-position:70% 40%; background-size:auto 180%; }
       .section-head { margin-bottom:34px; }
       html.crop-editor .crop-editor-toggle, html.crop-editor .crop-export { flex:1 1 120px; min-width:0; padding-inline:8px; }
       .cv-grid, .contact-grid, .press-grid { grid-template-columns:1fr; gap:40px; }
       .current-project { grid-template-columns:1fr auto; gap:12px 20px; }
       .current-project-description { grid-column:1 / 2; margin-top:0; }
       .current-project-collaboration { grid-column:1 / 2; margin-top:2px; }
-      .current-project-image { grid-column:1 / -1; grid-row:auto; max-width:420px; }
       .current-project-arrow { grid-column:2; grid-row:1 / span 2; }
       .project-caption { grid-template-columns:1fr; gap:8px; }
       .music-layout { grid-template-columns:1fr; gap:28px; }
@@ -183,31 +177,26 @@
         <article class="current-project">
           <p class="current-project-meta" data-i18n-html="current.stardust.meta">26 August 2026<br>KoncertKirken, Copenhagen</p>
           <div><p class="current-project-title"><a href="https://www.tickettailor.com/events/blackholeweek/2326307" target="_blank" rel="noreferrer" data-i18n-html="current.stardust.title">Scenography for <em>Your Borrowed Stardust</em></a></p><p class="current-project-description" data-i18n="current.stardust.description">Scenography, with Michel Winckler, for an immersive live performance weaving movement, spoken word, live music and installation together as part of Black Hole Week 2026.</p><p class="current-project-collaboration" data-i18n-html="current.stardust.collaboration">In collaboration with <a href="https://the-center-of-gravity.com/" target="_blank" rel="noreferrer">Centre of Gravity</a> and transdisciplinary artist and researcher <a href="https://www.yonderartscience.com/" target="_blank" rel="noreferrer">Clara Ferreira Cores</a>.</p></div>
-          <a class="current-project-image" href="https://www.tickettailor.com/events/blackholeweek/2326307" target="_blank" rel="noreferrer"><img src="assets/current-projects/your-borrowed-stardust.jpg" alt="Your Borrowed Stardust"></a>
           <a class="current-project-arrow" href="https://www.tickettailor.com/events/blackholeweek/2326307" target="_blank" rel="noreferrer" aria-label="Learn more about Your Borrowed Stardust">↗</a>
         </article>
         <article class="current-project">
           <p class="current-project-meta" data-i18n-html="current.literature.meta">6 September 2026<br>Karens Minde Kulturhus, Copenhagen</p>
           <div><p class="current-project-title"><a href="https://bkultur.dk/litteraturfestival/" target="_blank" rel="noreferrer" data-i18n="current.literature.title">Scenography for Troels Abrahamsen</a></p><p class="current-project-description" data-i18n="current.literature.description">Scenography for Troels Abrahamsen’s performance at Sydhavnens Litteraturfestival at Karens Minde Kulturhus.</p></div>
-          <a class="current-project-image" href="https://bkultur.dk/litteraturfestival/" target="_blank" rel="noreferrer"><img src="assets/current-projects/sydhavnens-litteraturfestival.jpg" alt="Sydhavnens Litteraturfestival"></a>
           <a class="current-project-arrow" href="https://bkultur.dk/litteraturfestival/" target="_blank" rel="noreferrer" aria-label="Learn more about Sydhavnens Litteraturfestival">↗</a>
         </article>
         <a class="current-project" href="https://www.acrossfestival.com/" target="_blank" rel="noreferrer">
           <p class="current-project-meta" data-i18n-html="current.across.meta">12-13 September 2026<br>LiteraturHaus, Copenhagen</p>
           <div><p class="current-project-title" data-i18n="current.across.title">Interactive light installation for ACROSS Festival</p><p class="current-project-description" data-i18n="current.across.description">I am developing an interactive light installation for ACROSS Festival, a classical music festival with NOVO Quartet in Nørrebro.</p></div>
-          <span class="current-project-image"><img src="assets/current-projects/across-novo-quartet.webp" alt="NOVO Quartet at ACROSS Festival"></span>
           <span class="current-project-arrow" aria-hidden="true">↗</span>
         </a>
         <article class="current-project">
           <p class="current-project-meta" data-i18n-html="current.churchchill.meta">9 October 2026<br>Brorsons Kirke, Copenhagen</p>
           <div><p class="current-project-title"><a href="https://www.brorsons.dk/b/churchchill-47064143" target="_blank" rel="noreferrer" data-i18n="current.churchchill.title">VJ / live visuals for ChurchChill no 51</a></p><p class="current-project-description" data-i18n-html="current.churchchill.description">Live visuals with <a href="https://www.instagram.com/gemmergemmer/?hl=da" target="_blank" rel="noreferrer">Søren Gemmer</a> for ChurchChill no 51 at Brorsons Kirke during Copenhagen Culture Night.</p></div>
-          <a class="current-project-image current-project-image--churchchill" href="https://www.brorsons.dk/b/churchchill-47064143" target="_blank" rel="noreferrer" aria-label="ChurchChill no 51"><span>ChurchChill<br>no 51</span></a>
           <a class="current-project-arrow" href="https://www.brorsons.dk/b/churchchill-47064143" target="_blank" rel="noreferrer" aria-label="Learn more about ChurchChill no 51">↗</a>
         </article>
         <a class="current-project" href="https://www.rundetaarn.dk/event/rundetaarn-klassik-novo-quartet/" target="_blank" rel="noreferrer">
           <p class="current-project-meta" data-i18n-html="current.novo.meta">29 October 2026<br>Rundetårn, Copenhagen</p>
           <div><p class="current-project-title" data-i18n="current.novo.title">Interactive light installation for NOVO Quartet</p><p class="current-project-description" data-i18n-html="current.novo.description">An interactive light installation for NOVO Quartet’s concert in the Library Hall, where music and light meet as part of the exhibition <em>Light Echoes</em>.</p></div>
-          <span class="current-project-image"><img src="assets/current-projects/rundetaarn-novo-quartet.jpg" alt="NOVO Quartet at Rundetårn"></span>
           <span class="current-project-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
