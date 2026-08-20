@@ -9,14 +9,16 @@
   <meta property="og:title" content="Kaspar Vig">
   <meta property="og:description" content="Kaspar Vig">
   <meta property="og:url" content="https://kasparvig.com/">
-  <meta property="og:image" content="https://kasparvig.com/assets/current-projects/kaspar-vig-share.jpg">
+  <meta property="og:image" content="https://kasparvig.com/assets/current-projects/kaspar-vig-share.jpg?v=20260820-3">
+  <meta property="og:image:secure_url" content="https://kasparvig.com/assets/current-projects/kaspar-vig-share.jpg?v=20260820-3">
+  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="960">
   <meta property="og:image:alt" content="Kaspar Vig looking from a dollhouse">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kaspar Vig">
   <meta name="twitter:description" content="Kaspar Vig">
-  <meta name="twitter:image" content="https://kasparvig.com/assets/current-projects/kaspar-vig-share.jpg">
+  <meta name="twitter:image" content="https://kasparvig.com/assets/current-projects/kaspar-vig-share.jpg?v=20260820-3">
   <title>Kaspar Vig</title>
   <script>
     if (location.hostname === "127.0.0.1" || location.hostname === "localhost" || new URLSearchParams(location.search).has("edit-crops")) document.documentElement.classList.add("crop-editor");
@@ -60,6 +62,8 @@
     .current-project-collaboration { grid-column:2 / 3; margin:12px 0 0; color:var(--muted); font-size:.86rem; line-height:1.4; }
     .current-project-collaboration a { color:inherit; text-decoration-thickness:1px; text-underline-offset:3px; }
     .current-project-arrow { grid-column:3; grid-row:1 / span 2; align-self:center; font-size:1.5rem; }
+    .current-project-credit { position:absolute; right:max(28px,calc((100vw - var(--max))/2 + 28px)); bottom:20px; z-index:1; margin:0; color:rgba(255,255,255,.72); font-size:.7rem; letter-spacing:.04em; }
+    .current-project-credit a { color:inherit; text-underline-offset:3px; }
     h2 { margin:0 0 16px; font-size:clamp(2.3rem,5vw,4.8rem); font-weight:500; line-height:.94; letter-spacing:-.05em; }
     .section-copy { max-width:630px; margin:0; font-size:clamp(1.08rem,1.8vw,1.35rem); line-height:1.35; }
     .status { margin:0; color:var(--muted); font-size:1.15rem; }
@@ -148,7 +152,8 @@
       .main-nav a { flex:0 0 auto; padding-right:14px; }
       main, footer { width:calc(100% - 36px); }
       .section { padding:64px 18px 72px; }
-      .section--current { background-position:58% 40%; background-size:auto 180%; }
+      .section--current { background-position:61% 40%; background-size:auto 180%; }
+      .current-project-credit { display:none; }
       #visual-work-carousel img[src$="balling-8.jpg"] { object-position:62% center; }
       .section-head { margin-bottom:34px; }
       html.crop-editor .crop-editor-toggle, html.crop-editor .crop-export { flex:1 1 120px; min-width:0; padding-inline:8px; }
@@ -236,6 +241,7 @@
           <article class="carousel-card" data-project-gallery="ekko-park"><figure class="carousel-image"><button class="visual-project-open" type="button" aria-label="View image gallery from EKKO PARK"><img src="assets/installations/ekko-park-10023112.jpg" alt="EKKO PARK at Park Bio"></button></figure><div class="project-caption"><p class="project-caption-title">EKKO PARK<br>Park Bio, Copenhagen</p><p class="project-caption-copy" data-i18n-html="visual.ekko">EKKO PARK was a mini festival at Park Bio during Copenhagen Jazz Festival. The programme brought film, concerts and live visuals together, including <em>Where Music Grows</em>, <em>Kandis for livet</em> and concerts by <a href="https://www.caecilieballing.com/" target="_blank" rel="noreferrer">Cæcilie Balling</a> &amp; <a href="https://dybfoelt.dk/" target="_blank" rel="noreferrer">Dybfølt</a>, <a href="https://troelsabrahamsen.com/" target="_blank" rel="noreferrer">Troels Abrahamsen</a> and <a href="https://www.christianbalvig.com/" target="_blank" rel="noreferrer">Christian Balvig</a>.</p></div></article>
         </div>
       </div>
+      <p class="current-project-credit" data-i18n-html="current.photoCredit">Photo: <a href="https://alexanderhjespersen.dk/" target="_blank" rel="noreferrer">Alexander H. Jespersen</a></p>
     </section>
 
     <section class="section section--music" id="music" aria-labelledby="music-title">
@@ -321,6 +327,7 @@
       html: {
         "current.stardust.meta": "26. august 2026<br>KoncertKirken, København", "current.literature.meta": "6. september 2026<br>Karens Minde Kulturhus, København", "current.across.meta": "12.-13. september 2026<br>LiteraturHaus, København", "current.churchchill.meta": "9. oktober 2026<br>Brorsons Kirke, København", "current.novo.meta": "29. oktober 2026<br>Rundetårn, København",
         "current.stardust.title": "Scenografi til <em>Your Borrowed Stardust</em>",
+        "current.photoCredit": "Foto: <a href=\"https://alexanderhjespersen.dk/\" target=\"_blank\" rel=\"noreferrer\">Alexander H. Jespersen</a>",
         "current.stardust.collaboration": "I samarbejde med <a href=\"https://the-center-of-gravity.com/\" target=\"_blank\" rel=\"noreferrer\">Centre of Gravity</a> og den tværdisciplinære kunstner og forsker <a href=\"https://www.yonderartscience.com/\" target=\"_blank\" rel=\"noreferrer\">Clara Ferreira Cores</a>.",
         "current.churchchill.description": "Live visuals sammen med <a href=\"https://www.instagram.com/gemmergemmer/?hl=da\" target=\"_blank\" rel=\"noreferrer\">Søren Gemmer</a> til ChurchChill no 51 i Brorsons Kirke under Kulturnatten.",
         "current.novo.description": "En interaktiv lysinstallation til NOVO Quartets koncert i Bibliotekssalen, hvor musik og lys mødes som en del af udstillingen <em>Light Echoes</em>.",
