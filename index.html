@@ -1,505 +1,608 @@
-<!DOCTYPE html>
-<html lang="da" class="is-loading">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kaspar Vig</title>
-<link rel="preload" href="forside-desktop.webp" as="image" type="image/webp" media="(min-width: 641px)">
-<link rel="preload" href="forside-mobile.webp" as="image" type="image/webp" media="(max-width: 640px)">
-
-<style>
-html.is-loading {
-  background: #111;
-}
-
-body {
-  margin: 0;
-  background: #111;
-  color: #ffd23f;
-  font-family: futura, serif;
-  line-height: 1.6;
-}
-
-.site-loader {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: grid;
-  place-items: center;
-  background: #111;
-  opacity: 1;
-  visibility: visible;
-  transition: opacity .35s ease, visibility 0s linear .35s;
-}
-
-.site-loader::after {
-  content: "";
-  width: 52px;
-  height: 4px;
-  background: #ffd23f;
-  animation: loadingPulse .8s ease-in-out infinite alternate;
-}
-
-@keyframes loadingPulse {
-  from { transform: scaleX(.25); opacity: .45; }
-  to { transform: scaleX(1); opacity: 1; }
-}
-
-html.is-loading body {
-  overflow: hidden;
-}
-
-html.is-loading body > :not(.site-loader) {
-  opacity: 0;
-}
-
-html.is-ready body > :not(.site-loader) {
-  opacity: 1;
-  transition: opacity .35s ease;
-}
-
-html.is-ready .site-loader {
-  opacity: 0;
-  visibility: hidden;
-}
-
-/* PIXELHEST */
-.horse-wrap {
-  position: fixed;
-  top: 20%;
-  left: 10%;
-  z-index: 50;
-  width: 120px;
-  height: 90px;
-  pointer-events: none;
-  animation:
-    horseFloat 16s linear infinite,
-    horseBounce .8s infinite alternate;
-}
-
-.pixel-horse {
-  position: relative;
-  width: 120px;
-  height: 90px;
-  image-rendering: pixelated;
-}
-
-.block {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: #e8e1d0;
-  box-shadow: 0 0 0 2px #111;
-}
-
-.dark { background: #222; }
-.eye { background: #00e5ff; }
-.mane { background: #ff0055; }
-
-.horse-head { left: 72px; top: 12px; }
-.horse-snout { left: 96px; top: 24px; }
-.horse-neck { left: 60px; top: 24px; }
-.horse-body1 { left: 24px; top: 36px; }
-.horse-body2 { left: 36px; top: 36px; }
-.horse-body3 { left: 48px; top: 36px; }
-.horse-body4 { left: 60px; top: 36px; }
-.horse-back1 { left: 36px; top: 24px; }
-.horse-back2 { left: 48px; top: 24px; }
-.horse-leg1 { left: 30px; top: 48px; }
-.horse-leg2 { left: 54px; top: 48px; }
-.horse-leg3 { left: 78px; top: 48px; }
-.horse-foot1 { left: 30px; top: 60px; }
-.horse-foot2 { left: 54px; top: 60px; }
-.horse-foot3 { left: 78px; top: 60px; }
-.horse-tail { left: 12px; top: 36px; }
-.horse-eye { left: 84px; top: 12px; }
-.horse-mane1 { left: 60px; top: 12px; }
-.horse-mane2 { left: 48px; top: 12px; }
-
-.horse-wrap {
-  pointer-events: auto;
-  cursor: pointer;
-}
-
-.cursor-horse {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 60;
-  width: 120px;
-  height: 90px;
-  pointer-events: none;
-  transform: translate(-999px, -999px) scale(0.6);
-  transform-origin: top left;
-  animation: horseBounce .8s infinite alternate;
-}
-
-.fire-pixel {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  z-index: 49;
-  pointer-events: none;
-  animation: fireExplode .7s linear forwards;
-}
-
-@keyframes fireExplode {
-  from {
-    opacity: 1;
-    transform: translate(0,0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform:
-      translate(
-        calc(var(--x) * 1px),
-        calc(var(--y) * 1px)
-      )
-      scale(.2);
-  }
-}
-
-@keyframes horseFloat {
-  0%   { transform: translate(0vw,0vh) rotate(0deg); }
-  20%  { transform: translate(65vw,10vh) rotate(8deg); }
-  40%  { transform: translate(40vw,55vh) rotate(-6deg); }
-  60%  { transform: translate(75vw,35vh) rotate(10deg); }
-  80%  { transform: translate(15vw,70vh) rotate(-8deg); }
-  100% { transform: translate(0vw,0vh) rotate(0deg); }
-}
-
-@keyframes horseBounce {
-  from { margin-top: 0; }
-  to   { margin-top: -14px; }
-}
-
-/* HEADER */
-header {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-header img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,.35);
-}
-
-.content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: #ffd23f;
-  padding: 20px;
-  --hero-title-size: 5rem;
-}
-
-/* GLITCH TITEL */
-.glitch-title {
-  position: relative;
-  display: inline-block;
-  font-family: "helvetica", monospace;
-  font-size: var(--hero-title-size);
-  font-weight: bold;
-  color: #ffd23f;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  margin: 0;
-}
-
-.glitch-title::before,
-.glitch-title::after {
-  content: "Kaspar Vig";
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.glitch-title:hover::before {
-  opacity: .8;
-  color: #ff0040;
-  transform: translate(-10px,4px);
-}
-
-.glitch-title:hover::after {
-  opacity: .8;
-  color: #00e5ff;
-  transform: translate(12px,-6px);
-}
-
-.glitch-title:hover {
-  animation: datamosh .15s infinite;
-}
-
-@keyframes datamosh {
-  0%   { transform: translate(0,0); }
-  25%  { transform: translate(-4px,2px); }
-  50%  { transform: translate(6px,-2px); }
-  75%  { transform: translate(-2px,4px); }
-  100% { transform: translate(0,0); }
-}
-
-/* PIXELSTØV FRA TITEL */
-.pixel {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  pointer-events: none;
-  animation: explode .8s linear forwards;
-}
-
-@keyframes explode {
-  from {
-    opacity: 1;
-    transform: translate(0,0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform:
-      translate(
-        calc(var(--x) * 1px),
-        calc(var(--y) * 1px)
-      )
-      scale(.2);
-  }
-}
-
-nav a {
-  color: #ffd23f;
-  text-decoration: none;
-  margin: 0 16px;
-  font-size: 1.35rem;
-}
-
-nav {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px 0;
-}
-
-.construction-note {
-  margin: 18px 0 0;
-  font-size: var(--hero-title-size);
-  letter-spacing: 0.08em;
-  text-transform: lowercase;
-}
-
-section {
-  max-width: 850px;
-  margin: auto;
-  padding: 80px 20px;
-}
-
-footer {
-  text-align: center;
-  padding: 40px;
-  color: #ffd23f;
-}
-
-@media (max-width: 900px) {
-  .content {
-    --hero-title-size: 3.5rem;
-  }
-
-  .horse-wrap {
-    left: 4%;
-    top: 12%;
-    transform: scale(0.8);
-    transform-origin: top left;
-  }
-}
-
-@media (max-width: 640px) {
-  header {
-    min-height: 100svh;
-  }
-
-  header img {
-    object-position: 68% center;
-  }
-
-  .content {
-    padding: 16px;
-  }
-
-  .glitch-title {
-    letter-spacing: 0.05em;
-  }
-
-  .content p:not(.construction-note) {
-    font-size: 1.2rem !important;
-    margin: 14px 0 24px !important;
-  }
-
-  .content {
-    --hero-title-size: 2.4rem;
-  }
-
-  nav {
-    gap: 8px 0;
-  }
-
-  nav a {
-    margin: 0 10px;
-    font-size: 1.1rem;
-  }
-
-  section {
-    padding: 56px 18px;
-  }
-
-  footer {
-    padding: 28px 16px;
-  }
-
-  .horse-wrap {
-    left: 2%;
-    top: 8%;
-    transform: scale(0.62);
-  }
-}
-</style>
-<noscript><style>
-  html.is-loading body { overflow: auto; }
-  html.is-loading body > :not(.site-loader) { opacity: 1; }
-  .site-loader { display: none; }
-</style></noscript>
-</head>
-
-<body>
-
-<div class="site-loader" aria-label="Indlæser"></div>
-
-<div class="horse-wrap" id="horse">
-  <div class="pixel-horse">
-    <div class="block horse-head"></div>
-    <div class="block horse-snout"></div>
-    <div class="block horse-neck"></div>
-    <div class="block horse-body1"></div>
-    <div class="block horse-body2"></div>
-    <div class="block horse-body3"></div>
-    <div class="block horse-body4"></div>
-    <div class="block horse-back1"></div>
-    <div class="block horse-back2"></div>
-    <div class="block horse-leg1"></div>
-    <div class="block horse-leg2"></div>
-    <div class="block horse-leg3"></div>
-    <div class="block horse-foot1 dark"></div>
-    <div class="block horse-foot2 dark"></div>
-    <div class="block horse-foot3 dark"></div>
-    <div class="block horse-tail mane"></div>
-    <div class="block horse-eye eye"></div>
-    <div class="block horse-mane1 mane"></div>
-    <div class="block horse-mane2 mane"></div>
-  </div>
-</div>
-
-<header>
-
-<picture>
-  <source media="(max-width: 640px)" srcset="forside-mobile.webp" type="image/webp">
-  <source srcset="forside-desktop.webp" type="image/webp">
-  <img src="forside.jpg" alt="" width="3891" height="2650" fetchpriority="high">
-</picture>
-<div class="overlay"></div>
-
-<div class="content">
-
-<h1 class="glitch-title" id="title">
-Kaspar Vig
-</h1>
-
-<nav>
-<a href="musik.html">Musik</a>
-<a href="visuelt-arbejde.html">Visuelt arbejde</a>
-<a href="kontakt.html">Kontakt</a>
-</nav>
-<p class="construction-note">site under construction</p>
-
-</div>
-</header>
-
-<section id="kontakt">
-<h2>Kontakt</h2>
-<p>mail@kasparvig.com</p>
-</section>
-
-<footer>
-© 2026 Kaspar Vig
-</footer>
-
-<script>
-const pageImage = document.querySelector("header img");
-
-async function revealPage() {
-  if (pageImage.decode) {
-    try {
-      await pageImage.decode();
-    } catch (error) {
-      // The load event still guarantees that the image request has completed.
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Kaspar Vig">
+  <title>Kaspar Vig</title>
+  <script>
+    if (location.hostname === "127.0.0.1" || location.hostname === "localhost" || new URLSearchParams(location.search).has("edit-crops")) document.documentElement.classList.add("crop-editor");
+  </script>
+  <style>
+    :root { --ink:#182522; --paper:#fbfaf7; --muted:#5f6965; --line:rgba(24,37,34,.2); --apricot:#f2dfcc; --mint:#dcefe6; --lavender:#e8e1f4; --pink:#f4dfe7; --sand:#f1e8d8; --press:#e1e7f2; --max:1180px; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:var(--paper); font:16px/1.5 Arial,Helvetica,sans-serif; }
+    a { color:inherit; }
+    a:focus-visible, button:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
+    .site-header { position:sticky; top:0; z-index:10; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:17px 28px; background:rgba(251,250,247,.94); border-bottom:1px solid var(--line); }
+    .wordmark { font-size:1rem; font-weight:700; letter-spacing:.02em; text-decoration:none; white-space:nowrap; }
+    .header-actions { display:flex; align-items:center; justify-content:flex-end; gap:16px; }
+    .main-nav { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:4px 14px; font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; }
+    .main-nav a { text-decoration:none; }
+    .main-nav a:hover { text-decoration:underline; text-underline-offset:4px; }
+    .instagram-link { display:inline-flex; align-items:center; justify-content:center; text-decoration:none !important; }
+    .instagram-link svg { width:17px; height:17px; display:block; }
+    .language-switch { display:flex; align-items:center; gap:7px; color:var(--muted); font-size:.72rem; font-weight:700; letter-spacing:.08em; line-height:1; }
+    .language-switch button { padding:0; color:var(--muted); background:transparent; border:0; border-radius:0; cursor:pointer; font:inherit; letter-spacing:inherit; }
+    .language-switch button[aria-current="page"] { color:var(--ink); }
+    .language-switch button:hover { text-decoration:underline; text-underline-offset:4px; }
+    main { width:min(var(--max),calc(100% - 56px)); margin:0 auto; }
+    .section { width:100vw; margin-left:calc(50% - 50vw); padding:86px max(28px,calc((100vw - var(--max))/2 + 28px)) 96px; border-bottom:1px solid var(--line); }
+    .section--current { --muted:rgba(255,255,255,.76); --line:rgba(255,255,255,.3); position:relative; isolation:isolate; color:#fff; background-color:#263238; background-image:linear-gradient(90deg,rgba(13,21,25,.82) 0%,rgba(13,21,25,.7) 48%,rgba(13,21,25,.43) 100%),url("assets/current-projects/current-projects-kaspar-vig.webp"); background-position:center center; background-size:cover; }
+    .section--visual { background:var(--mint); }
+    .section--music { background:var(--lavender); }
+    .section--photography { background:var(--pink); }
+    .section--contact { background:var(--sand); }
+    .section--press { background:var(--press); }
+    .section-head { margin-bottom:48px; }
+    .section-index { margin:0; color:var(--muted); font-size:clamp(.95rem,1.5vw,1.2rem); font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+    .current-project-list { max-width:960px; border-top:1px solid var(--line); }
+    .current-project { display:grid; grid-template-columns:minmax(120px,.65fr) minmax(0,2fr) minmax(160px,.75fr) auto; gap:22px; align-items:start; padding:25px 0; border-bottom:1px solid var(--line); color:inherit; text-decoration:none; }
+    .current-project:hover .current-project-title { text-decoration:underline; text-underline-offset:5px; }
+    .current-project-meta { margin:0; color:var(--muted); font-size:.74rem; font-weight:700; letter-spacing:.08em; line-height:1.45; text-transform:uppercase; }
+    .current-project-title { margin:0; font-size:clamp(1.25rem,2vw,1.7rem); font-weight:400; line-height:1.1; }
+    .current-project-title a, .current-project-arrow { color:inherit; text-decoration:none; }
+    .current-project-description { grid-column:2 / 3; margin:10px 0 0; max-width:680px; font-size:1rem; line-height:1.4; }
+    .current-project-collaboration { grid-column:2 / 3; margin:12px 0 0; color:var(--muted); font-size:.86rem; line-height:1.4; }
+    .current-project-collaboration a { color:inherit; text-decoration-thickness:1px; text-underline-offset:3px; }
+    .current-project-image { grid-column:3; grid-row:1 / span 2; display:block; width:100%; aspect-ratio:4 / 3; overflow:hidden; border:1px solid var(--line); background:var(--ink); color:var(--paper); text-decoration:none; }
+    .current-project-image img { width:100%; height:100%; display:block; object-fit:cover; object-position:center; transition:transform .25s ease; }
+    .current-project:hover .current-project-image img { transform:scale(1.025); }
+    .current-project-image--churchchill { display:grid; place-items:end start; padding:14px; background:#202b53; color:#f0e8d6; font-size:.78rem; font-weight:700; letter-spacing:.12em; line-height:1.2; text-transform:uppercase; }
+    .current-project-image--churchchill span { max-width:10ch; }
+    .current-project-arrow { grid-column:4; grid-row:1 / span 2; align-self:center; font-size:1.5rem; }
+    h2 { margin:0 0 16px; font-size:clamp(2.3rem,5vw,4.8rem); font-weight:500; line-height:.94; letter-spacing:-.05em; }
+    .section-copy { max-width:630px; margin:0; font-size:clamp(1.08rem,1.8vw,1.35rem); line-height:1.35; }
+    .status { margin:0; color:var(--muted); font-size:1.15rem; }
+    .cv-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+    .cv-block h3 { margin:0 0 16px; font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+    .cv-list { margin:0; padding:0; list-style:none; }
+    .cv-list li { padding:13px 0; border-top:1px solid var(--line); }
+    .cv-list li:last-child { border-bottom:1px solid var(--line); }
+    .cv-list strong { font-weight:700; }
+    .carousel-shell { position:relative; }
+    .carousel { display:grid; grid-auto-flow:column; grid-auto-columns:100%; gap:18px; overflow-x:auto; padding:2px 0 16px; scrollbar-color:var(--ink) transparent; scroll-snap-type:x mandatory; scroll-behavior:smooth; }
+    .carousel--photography .carousel-image { aspect-ratio:4 / 3; }
+    .carousel--visual .carousel-image { aspect-ratio:16 / 9; }
+    .carousel-card { width:100%; margin:0; scroll-snap-align:start; }
+    .carousel-image { min-height:250px; margin:0; overflow:hidden; border:1px solid var(--line); background:var(--ink); }
+    .carousel-image img { width:100%; height:100%; display:block; object-fit:cover; object-position:center; }
+    .visual-project-open { display:block; width:100%; height:100%; padding:0; border:0; background:transparent; cursor:zoom-in; }
+    .visual-project-open:focus-visible { outline:3px solid var(--ink); outline-offset:-5px; }
+    .project-caption { display:grid; grid-template-columns:minmax(150px,.7fr) minmax(0,2fr); gap:22px; margin:14px 0 0; padding-top:13px; border-top:1px solid var(--line); }
+    .project-caption-title { margin:0; color:var(--muted); font-size:.76rem; font-weight:700; letter-spacing:.08em; line-height:1.4; text-transform:uppercase; }
+    .project-caption-copy { margin:0; max-width:680px; font-size:1rem; line-height:1.4; }
+    .project-caption a { color:inherit; text-underline-offset:3px; text-decoration-thickness:1px; }
+    .music-layout { display:grid; grid-template-columns:minmax(0,420px) minmax(0,1fr); gap:48px; align-items:start; }
+    .music-cover { display:block; border:1px solid var(--line); background:var(--ink); }
+    .music-cover img { display:block; width:100%; aspect-ratio:1; object-fit:cover; }
+    .music-details { border-top:1px solid var(--line); }
+    .music-item { padding:20px 0 23px; border-bottom:1px solid var(--line); }
+    .music-item-title { margin:0; color:var(--muted); font-size:.76rem; font-weight:700; letter-spacing:.08em; line-height:1.4; text-transform:uppercase; }
+    .music-item-copy { max-width:680px; margin:10px 0 0; font-size:1rem; line-height:1.4; }
+    .music-item a { color:inherit; text-underline-offset:3px; text-decoration-thickness:1px; }
+    #photography-carousel .carousel-card img { cursor:zoom-in; }
+    #photography-carousel img[src$="caecilieballing-pr.jpg"] { object-position:50% 42%; }
+    #photography-carousel img[src$="sivmedsaks.jpg"] { object-position:50% 34%; }
+    #photography-carousel img[src$="isabellamedfloejte.jpg"] { object-position:44% 50%; }
+    #photography-carousel img[src$="andersw.jpg"],
+    #photography-carousel img[src$="josefine-weber.jpg"],
+    #photography-carousel img[src$="malthe.jpg"] { object-position:50% 38%; }
+    .carousel-card small { display:block; margin-top:8px; color:var(--muted); font-size:.76rem; }
+    .carousel-card small a { color:inherit; text-underline-offset:3px; text-decoration-thickness:1px; }
+    .carousel-note { margin:16px 0 0; color:var(--muted); font-size:.9rem; }
+    .carousel-controls { display:flex; justify-content:flex-end; gap:8px; margin:0 0 14px; }
+    .carousel-control { width:38px; height:38px; padding:0; color:var(--ink); background:transparent; border:1px solid var(--ink); border-radius:0; cursor:pointer; font:1.2rem/1 Arial,sans-serif; }
+    .carousel-control:hover { color:var(--paper); background:var(--ink); }
+    .crop-editor-toggle, .crop-export { display:none; width:auto; min-width:38px; height:38px; padding:0 12px; color:var(--ink); background:transparent; border:1px solid var(--ink); border-radius:0; cursor:pointer; font:.68rem/1 Arial,sans-serif; letter-spacing:.06em; text-transform:uppercase; }
+    .crop-editor-toggle:hover, .crop-export:hover { color:var(--paper); background:var(--ink); }
+    html.crop-editor .crop-editor-toggle, html.crop-editor .crop-export { display:inline-flex; align-items:center; justify-content:center; }
+    html.crop-editor .carousel--editing { scroll-snap-type:none; }
+    html.crop-editor .carousel--editing .carousel-card img { cursor:grab; touch-action:none; user-select:none; }
+    html.crop-editor .carousel--editing .carousel-card img:active { cursor:grabbing; }
+    .contact-grid { display:grid; grid-template-columns:minmax(0,1fr) 280px; gap:60px; align-items:start; }
+    .contact-title { max-width:560px; }
+    .contact-links { display:flex; flex-direction:column; align-items:flex-start; gap:8px; margin-top:22px; }
+    .contact-email, .contact-phone { display:inline-block; font-size:clamp(1.05rem,1.7vw,1.35rem); line-height:1.3; text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:5px; }
+    .press-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; max-width:760px; }
+    .press-item { min-height:132px; display:flex; flex-direction:column; justify-content:space-between; padding:22px; border:1px solid var(--line); color:inherit; text-decoration:none; }
+    .press-item:hover { background:rgba(251,250,247,.45); }
+    .press-label { margin:0; font-size:1.25rem; }
+    .press-status { margin:18px 0 0; color:var(--muted); font-size:.82rem; letter-spacing:.06em; text-transform:uppercase; }
+    .lightbox[hidden] { display:none; }
+    .lightbox { position:fixed; inset:0; z-index:30; display:grid; place-items:center; padding:clamp(20px,5vw,72px); background:rgba(24,37,34,.86); cursor:zoom-out; }
+    .lightbox-image { max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; cursor:default; }
+    .lightbox-close { position:absolute; top:18px; right:22px; width:42px; height:42px; padding:0; color:var(--paper); background:transparent; border:1px solid rgba(251,250,247,.8); border-radius:0; cursor:pointer; font:1.5rem/1 Arial,sans-serif; }
+    .lightbox-close:hover { color:var(--ink); background:var(--paper); }
+    .project-lightbox[hidden] { display:none; }
+    .project-lightbox { position:fixed; inset:0; z-index:31; display:grid; place-items:center; padding:clamp(18px,4vw,54px); background:rgba(24,37,34,.9); }
+    .project-lightbox-surface { width:min(1200px,100%); max-height:100%; display:grid; grid-template-rows:auto minmax(0,1fr); gap:14px; }
+    .project-lightbox-bar { display:flex; justify-content:space-between; align-items:center; gap:18px; color:var(--paper); }
+    .project-lightbox-title { margin:0; font-size:.78rem; font-weight:700; letter-spacing:.08em; line-height:1.35; text-transform:uppercase; }
+    .project-lightbox-close { position:static; flex:0 0 auto; }
+    .project-lightbox-gallery { min-height:0; display:grid; grid-template-columns:42px minmax(0,1fr) 42px; gap:14px; align-items:center; }
+    .project-lightbox-figure { min-width:0; margin:0; }
+    .project-lightbox-image { display:block; width:100%; max-height:calc(100vh - 150px); object-fit:contain; background:var(--ink); }
+    .project-lightbox-count { display:block; margin-top:9px; color:rgba(251,250,247,.76); font-size:.72rem; text-align:center; }
+    .project-lightbox-nav { width:42px; height:42px; padding:0; color:var(--paper); background:transparent; border:1px solid rgba(251,250,247,.8); border-radius:0; cursor:pointer; font:1.3rem/1 Arial,sans-serif; }
+    .project-lightbox-nav:hover, .project-lightbox-close:hover { color:var(--ink); background:var(--paper); }
+    .portrait { width:100%; aspect-ratio:4/5; object-fit:cover; display:block; filter:grayscale(100%); }
+    .portrait-caption { margin:10px 0 0; color:var(--muted); font-size:.78rem; }
+    footer { display:flex; justify-content:space-between; gap:20px; width:min(var(--max),calc(100% - 56px)); margin:0 auto; padding:24px 0 38px; color:var(--muted); font-size:.78rem; }
+    footer a { text-decoration:none; }
+    @media (max-width:760px) {
+      .site-header { align-items:flex-start; padding:14px 18px; }
+      .header-actions { align-items:flex-start; gap:12px; }
+      .main-nav { max-width:245px; gap:4px 12px; font-size:.62rem; }
+      main, footer { width:calc(100% - 36px); }
+      .section { padding:64px 18px 72px; }
+      .section--current { background-position:85% center; }
+      .section-head { margin-bottom:34px; }
+      html.crop-editor .crop-editor-toggle, html.crop-editor .crop-export { flex:1 1 120px; min-width:0; padding-inline:8px; }
+      .cv-grid, .contact-grid, .press-grid { grid-template-columns:1fr; gap:40px; }
+      .current-project { grid-template-columns:1fr auto; gap:12px 20px; }
+      .current-project-description { grid-column:1 / 2; margin-top:0; }
+      .current-project-collaboration { grid-column:1 / 2; margin-top:2px; }
+      .current-project-image { grid-column:1 / -1; grid-row:auto; max-width:420px; }
+      .current-project-arrow { grid-column:2; grid-row:1 / span 2; }
+      .project-caption { grid-template-columns:1fr; gap:8px; }
+      .music-layout { grid-template-columns:1fr; gap:28px; }
+      .music-cover { max-width:420px; }
+      .project-lightbox { padding:16px; }
+      .project-lightbox-gallery { grid-template-columns:36px minmax(0,1fr) 36px; gap:8px; }
+      .project-lightbox-nav { width:36px; height:36px; }
+      .project-lightbox-image { max-height:calc(100vh - 136px); }
+      .contact-grid { gap:28px; }
+      .portrait { max-width:320px; }
+      footer { flex-direction:column; padding-bottom:26px; }
     }
-  }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="#top">Kaspar Vig</a>
+    <div class="header-actions">
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#visual-work" data-i18n="nav.visual">Installation / Visual Work</a>
+      <a href="#music" data-i18n="nav.music">Music</a>
+      <a href="#photography" data-i18n="nav.photography">Photography</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+      <a href="#press" data-i18n="nav.press">Press</a>
+      <a class="instagram-link" href="https://www.instagram.com/kasparvig/" target="_blank" rel="noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.7" r="1.1" fill="currentColor"/></svg>
+      </a>
+    </nav>
+    <div class="language-switch" aria-label="Language selection"><button type="button" data-language="en" aria-current="page">EN</button><span aria-hidden="true">/</span><button type="button" data-language="da">DA</button></div>
+    </div>
+  </header>
+  <main id="top">
+    <section class="section section--current" id="current-project" aria-labelledby="current-project-title">
+      <div class="section-head"><p class="section-index" id="current-project-title" data-i18n="current.heading">Current Projects</p></div>
+      <div class="current-project-list">
+        <article class="current-project">
+          <p class="current-project-meta" data-i18n-html="current.stardust.meta">26 August 2026<br>KoncertKirken, Copenhagen</p>
+          <div><p class="current-project-title"><a href="https://www.tickettailor.com/events/blackholeweek/2326307" target="_blank" rel="noreferrer" data-i18n-html="current.stardust.title">Scenography for <em>Your Borrowed Stardust</em></a></p><p class="current-project-description" data-i18n="current.stardust.description">Scenography, with Michel Winckler, for an immersive live performance weaving movement, spoken word, live music and installation together as part of Black Hole Week 2026.</p><p class="current-project-collaboration" data-i18n-html="current.stardust.collaboration">In collaboration with <a href="https://the-center-of-gravity.com/" target="_blank" rel="noreferrer">Centre of Gravity</a> and transdisciplinary artist and researcher <a href="https://www.yonderartscience.com/" target="_blank" rel="noreferrer">Clara Ferreira Cores</a>.</p></div>
+          <a class="current-project-image" href="https://www.tickettailor.com/events/blackholeweek/2326307" target="_blank" rel="noreferrer"><img src="assets/current-projects/your-borrowed-stardust.jpg" alt="Your Borrowed Stardust"></a>
+          <a class="current-project-arrow" href="https://www.tickettailor.com/events/blackholeweek/2326307" target="_blank" rel="noreferrer" aria-label="Learn more about Your Borrowed Stardust">↗</a>
+        </article>
+        <article class="current-project">
+          <p class="current-project-meta" data-i18n-html="current.literature.meta">6 September 2026<br>Karens Minde Kulturhus, Copenhagen</p>
+          <div><p class="current-project-title"><a href="https://bkultur.dk/litteraturfestival/" target="_blank" rel="noreferrer" data-i18n="current.literature.title">Scenography for Troels Abrahamsen</a></p><p class="current-project-description" data-i18n="current.literature.description">Scenography for Troels Abrahamsen’s performance at Sydhavnens Litteraturfestival at Karens Minde Kulturhus.</p></div>
+          <a class="current-project-image" href="https://bkultur.dk/litteraturfestival/" target="_blank" rel="noreferrer"><img src="assets/current-projects/sydhavnens-litteraturfestival.jpg" alt="Sydhavnens Litteraturfestival"></a>
+          <a class="current-project-arrow" href="https://bkultur.dk/litteraturfestival/" target="_blank" rel="noreferrer" aria-label="Learn more about Sydhavnens Litteraturfestival">↗</a>
+        </article>
+        <a class="current-project" href="https://www.acrossfestival.com/" target="_blank" rel="noreferrer">
+          <p class="current-project-meta" data-i18n-html="current.across.meta">12-13 September 2026<br>LiteraturHaus, Copenhagen</p>
+          <div><p class="current-project-title" data-i18n="current.across.title">Interactive light installation for ACROSS Festival</p><p class="current-project-description" data-i18n="current.across.description">I am developing an interactive light installation for ACROSS Festival, a classical music festival with NOVO Quartet in Nørrebro.</p></div>
+          <span class="current-project-image"><img src="assets/current-projects/across-novo-quartet.webp" alt="NOVO Quartet at ACROSS Festival"></span>
+          <span class="current-project-arrow" aria-hidden="true">↗</span>
+        </a>
+        <article class="current-project">
+          <p class="current-project-meta" data-i18n-html="current.churchchill.meta">9 October 2026<br>Brorsons Kirke, Copenhagen</p>
+          <div><p class="current-project-title"><a href="https://www.brorsons.dk/b/churchchill-47064143" target="_blank" rel="noreferrer" data-i18n="current.churchchill.title">VJ / live visuals for ChurchChill no 51</a></p><p class="current-project-description" data-i18n-html="current.churchchill.description">Live visuals with <a href="https://www.instagram.com/gemmergemmer/?hl=da" target="_blank" rel="noreferrer">Søren Gemmer</a> for ChurchChill no 51 at Brorsons Kirke during Copenhagen Culture Night.</p></div>
+          <a class="current-project-image current-project-image--churchchill" href="https://www.brorsons.dk/b/churchchill-47064143" target="_blank" rel="noreferrer" aria-label="ChurchChill no 51"><span>ChurchChill<br>no 51</span></a>
+          <a class="current-project-arrow" href="https://www.brorsons.dk/b/churchchill-47064143" target="_blank" rel="noreferrer" aria-label="Learn more about ChurchChill no 51">↗</a>
+        </article>
+        <a class="current-project" href="https://www.rundetaarn.dk/event/rundetaarn-klassik-novo-quartet/" target="_blank" rel="noreferrer">
+          <p class="current-project-meta" data-i18n-html="current.novo.meta">29 October 2026<br>Rundetårn, Copenhagen</p>
+          <div><p class="current-project-title" data-i18n="current.novo.title">Interactive light installation for NOVO Quartet</p><p class="current-project-description" data-i18n-html="current.novo.description">An interactive light installation for NOVO Quartet’s concert in the Library Hall, where music and light meet as part of the exhibition <em>Light Echoes</em>.</p></div>
+          <span class="current-project-image"><img src="assets/current-projects/rundetaarn-novo-quartet.jpg" alt="NOVO Quartet at Rundetårn"></span>
+          <span class="current-project-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
 
-  if (document.fonts?.ready) {
-    await document.fonts.ready;
-  }
+    <section class="section section--visual" id="visual-work" aria-labelledby="visual-title">
+      <div class="section-head"><p class="section-index" id="visual-title" data-i18n="visual.heading">Installation / Visual Work</p></div>
+      <div class="carousel-shell">
+        <div class="carousel-controls" aria-label="Installation / Visual Work controls">
+          <button class="crop-editor-toggle" type="button" aria-pressed="false" data-crop-toggle="visual-work-carousel" data-i18n="controls.editCrop">Edit crop</button>
+          <button class="carousel-control" type="button" aria-label="Previous image in Installation / Visual Work" data-carousel-action="previous" data-carousel-target="visual-work-carousel">←</button>
+          <button class="carousel-control" type="button" aria-label="Next image in Installation / Visual Work" data-carousel-action="next" data-carousel-target="visual-work-carousel">→</button>
+          <button class="crop-export" type="button" data-crop-export aria-label="Copy crop settings" data-i18n="controls.copyCrop">Copy crop settings</button>
+        </div>
+        <div class="carousel carousel--visual" id="visual-work-carousel" aria-label="Installation / Visual Work" data-carousel-auto>
+          <article class="carousel-card" data-project-gallery="balling"><figure class="carousel-image"><button class="visual-project-open" type="button" aria-label="View image gallery from Musikalske Balling"><img src="assets/installations/balling-8.jpg" alt="Installation from Musikalske Balling"></button></figure><div class="project-caption"><p class="project-caption-title"><em>Musikalske Balling</em><br>DR Koncerthuset</p><p class="project-caption-copy" data-i18n-html="visual.balling">Co-producer and scenographer for <em>Musikalske Balling</em> at DR Koncerthuset, created in honour of film director Erik Balling’s 100th birthday. I designed and built a specially made set of ten projection frames for the concert. Main producer: <a href="https://www.caecilieballing.com/" target="_blank" rel="noreferrer">Cæcilie Balling</a>.</p></div></article>
+          <article class="carousel-card" data-project-gallery="hermes"><figure class="carousel-image"><button class="visual-project-open" type="button" aria-label="View image gallery from Christian Balvig and Ensemble Hermes"><img src="assets/installations/hermes-balvig-concert-screen.jpg" alt="Christian Balvig and Ensemble Hermes"></button></figure><div class="project-caption"><p class="project-caption-title"><a href="https://www.christianbalvig.com/" target="_blank" rel="noreferrer">Christian Balvig</a> &amp; <a href="https://www.ensemblehermes.dk/" target="_blank" rel="noreferrer">Ensemble Hermes</a><br>Musikhuset Aarhus</p><p class="project-caption-copy" data-i18n-html="visual.hermes">Scenography and live visuals for <a href="https://www.christianbalvig.com/" target="_blank" rel="noreferrer">Christian Balvig</a> and <a href="https://www.ensemblehermes.dk/" target="_blank" rel="noreferrer">Ensemble Hermes</a> at Musikhuset Aarhus. I created analog video animations from manipulated 8 mm film and archive footage, projected across a mosaic of screens around the ensemble.</p></div></article>
+          <article class="carousel-card" data-project-gallery="fantastiske-bus"><figure class="carousel-image"><button class="visual-project-open" type="button" aria-label="View image gallery from Den fantastiske bus"><img src="assets/installations/synth-fantastiske-bus.jpg" alt="Synth for Den fantastiske bus"></button></figure><div class="project-caption"><p class="project-caption-title">Den fantastiske bus<br><span data-i18n="visual.royalTheatre">The Royal Danish Theatre</span></p><p class="project-caption-copy" data-i18n-html="visual.fantastiske">Scenography and prop design for <em>Den fantastiske bus</em> at The Royal Danish Theatre. I designed and built the on-stage synthesizer for this theatre adaptation of Jakob Martin Strid’s book.</p></div></article>
+          <article class="carousel-card" data-project-gallery="xenon-girls-in-airports"><figure class="carousel-image"><button class="visual-project-open" type="button" aria-label="View image gallery from Girls in Airports at XENON"><img src="assets/installations/xenon-girls-in-airports/xenon-01.jpg" alt="Scenography for Girls in Airports at XENON"></button></figure><div class="project-caption"><p class="project-caption-title"><a href="https://girlsinairports.com/" target="_blank" rel="noreferrer">Girls in Airports</a><br>XENON, HUSET</p><p class="project-caption-copy" data-i18n-html="visual.xenon">Scenography for <a href="https://girlsinairports.com/" target="_blank" rel="noreferrer">Girls in Airports</a>’ residency at XENON during Copenhagen Jazz Festival, in collaboration with <a href="https://www.diktakrom.com/" target="_blank" rel="noreferrer">DIKTAKROM</a>. A living lamp that pulsed with the music formed the centre of the installation.</p></div></article>
+          <article class="carousel-card" data-project-gallery="ekko-park"><figure class="carousel-image"><button class="visual-project-open" type="button" aria-label="View image gallery from EKKO PARK"><img src="assets/installations/ekko-park-10023112.jpg" alt="EKKO PARK at Park Bio"></button></figure><div class="project-caption"><p class="project-caption-title">EKKO PARK<br>Park Bio, Copenhagen</p><p class="project-caption-copy" data-i18n-html="visual.ekko">I initiated and curated EKKO PARK, a mini festival at Park Bio during Copenhagen Jazz Festival. The programme brought film, concerts and live visuals together, including <em>Where Music Grows</em> and concerts by <a href="https://www.caecilieballing.com/" target="_blank" rel="noreferrer">Cæcilie Balling</a> &amp; <a href="https://dybfoelt.dk/" target="_blank" rel="noreferrer">Dybfølt</a>, <a href="https://troelsabrahamsen.com/" target="_blank" rel="noreferrer">Troels Abrahamsen</a> and <a href="https://www.christianbalvig.com/" target="_blank" rel="noreferrer">Christian Balvig</a>. I created the live visuals.</p></div></article>
+        </div>
+      </div>
+    </section>
 
-  document.documentElement.classList.remove("is-loading");
-  document.documentElement.classList.add("is-ready");
-}
+    <section class="section section--music" id="music" aria-labelledby="music-title">
+      <div class="section-head"><p class="section-index" id="music-title" data-i18n="music.heading">Music</p></div>
+      <div class="music-layout">
+        <a class="music-cover" href="https://vig.lnk.to/corolla" target="_blank" rel="noreferrer" aria-label="Listen to Somnium Corolla"><img src="assets/music/corolla-cover.jpg" alt="Cover artwork for Somnium Corolla"></a>
+        <div class="music-details">
+          <div class="music-item"><p class="music-item-title"><a href="https://vig.lnk.to/corolla" target="_blank" rel="noreferrer">Somnium Corolla</a><br><span data-i18n="music.latest">Latest release</span></p><p class="music-item-copy"><a href="https://vig.lnk.to/corolla" target="_blank" rel="noreferrer" data-i18n-html="music.listen">Listen to <em>Somnium Corolla</em> ↗</a><br><span data-i18n="music.p8">In rotation on Danish radio P8.</span></p></div>
+          <div class="music-item"><p class="music-item-title"><span data-i18n="music.new">New music</span><br>2027</p><p class="music-item-copy" data-i18n="music.description">I am currently developing new music for release in 2027, with support from the Danish Arts Foundation.</p></div>
+        </div>
+      </div>
+    </section>
 
-window.addEventListener("load", revealPage, { once: true });
+    <section class="section section--photography" id="photography" aria-labelledby="photography-title">
+      <div class="section-head"><p class="section-index" id="photography-title" data-i18n="photography.heading">Photography</p></div>
+      <div class="carousel-shell">
+        <div class="carousel-controls" aria-label="Photography controls">
+          <button class="crop-editor-toggle" type="button" aria-pressed="false" data-crop-toggle="photography-carousel" data-i18n="controls.editCrop">Edit crop</button>
+          <button class="carousel-control" type="button" aria-label="Previous image in Photography" data-carousel-action="previous" data-carousel-target="photography-carousel">←</button>
+          <button class="carousel-control" type="button" aria-label="Next image in Photography" data-carousel-action="next" data-carousel-target="photography-carousel">→</button>
+          <button class="crop-export" type="button" data-crop-export aria-label="Copy crop settings" data-i18n="controls.copyCrop">Copy crop settings</button>
+        </div>
+        <div class="carousel carousel--photography" id="photography-carousel" aria-label="Photography" data-carousel-auto>
+          <article class="carousel-card"><figure class="carousel-image"><img src="assets/photography/caecilieballing-pr.jpg" alt="Cæcilie Balling"></figure><small><a href="https://www.caecilieballing.com/" target="_blank" rel="noreferrer">Cæcilie Balling</a></small></article>
+          <article class="carousel-card"><figure class="carousel-image"><img src="assets/photography/sivmedsaks.jpg" alt="Siv with scissors"></figure><small><a href="https://www.instagram.com/oyunn/?hl=da" target="_blank" rel="noreferrer">Siv Øyunn</a></small></article>
+          <article class="carousel-card"><figure class="carousel-image"><img src="assets/photography/isabellamedfloejte.jpg" alt="Isabella with flute"></figure><small>Isabella Hübener</small></article>
+          <article class="carousel-card"><figure class="carousel-image"><img src="assets/photography/troels-abrahamsen-christian-balvig-2.jpg" alt="Troels Abrahamsen and Christian Balvig"></figure><small><a href="https://troelsabrahamsen.com/" target="_blank" rel="noreferrer">Troels Abrahamsen</a> &amp; <a href="https://www.christianbalvig.com/" target="_blank" rel="noreferrer">Christian Balvig</a></small></article>
+          <article class="carousel-card"><figure class="carousel-image"><img src="assets/photography/andersw.jpg" alt="Anders W"></figure><small>Anders Wallin</small></article>
+          <article class="carousel-card"><figure class="carousel-image"><img src="assets/photography/josefine-weber.jpg" alt="Josefine Weber"></figure><small><a href="https://josefineweber.dk/" target="_blank" rel="noreferrer">Josephine Weber</a></small></article>
+          <article class="carousel-card"><figure class="carousel-image"><img src="assets/photography/malthe.jpg" alt="Malthe"></figure><small><a href="https://mermaidrecords.dk/pages/knaegt?srsltid=AfmBOoqeO_7jbHJCtfKg2UA-iyzRDguVQ4EeTvHAcPifpRJdh9iQjAIF" target="_blank" rel="noreferrer">Malthe Nordtorp / Knægt</a></small></article>
+          <article class="carousel-card"><figure class="carousel-image"><img src="assets/photography/troels-abrahamsen-portrait.jpg" alt="Troels Abrahamsen"></figure><small><a href="https://troelsabrahamsen.com/" target="_blank" rel="noreferrer">Troels Abrahamsen</a></small></article>
+          <article class="carousel-card"><figure class="carousel-image"><img src="assets/photography/jonas-emanuel.jpg" alt="Jonas Emanuel"></figure><small>Jonas Emanuel</small></article>
+        </div>
+      </div>
+    </section>
 
-const title = document.getElementById("title");
+    <section class="section section--contact" id="contact" aria-labelledby="contact-title">
+      <div class="section-head"><p class="section-index" id="contact-title" data-i18n="contact.heading">Contact</p></div>
+      <div class="contact-grid"><div><p class="section-copy">Kaspar Vig</p><div class="contact-links"><a class="contact-email" href="mailto:mail@kasparvig.com">mail@kasparvig.com</a><a class="contact-phone" href="tel:+4553602078">+45 53 60 20 78</a></div></div><figure><img class="portrait" src="assets/kaspar-vig-contact.jpg" alt="Kaspar Vig"><figcaption class="portrait-caption"><span data-i18n="contact.photoBy">Photograph by</span> <a href="https://sofieamalieklougart.dk/" target="_blank" rel="noreferrer">Sofie Amalie Klougart</a></figcaption></figure></div>
+    </section>
 
-function burstPixels() {
-  const rect = title.getBoundingClientRect();
+    <section class="section section--press" id="press" aria-labelledby="press-title">
+      <div class="section-head"><p class="section-index" id="press-title" data-i18n="press.heading">Press</p></div>
+      <div class="press-grid">
+        <a class="press-item" href="assets/press/kaspar-vig-cv.pdf" download><p class="press-label" data-i18n="press.cv">CV / Resume</p><p class="press-status" data-i18n="press.pdf">Download PDF ↗</p></a>
+        <a class="press-item" href="assets/press/kaspar-vig-press-photos.zip" download><p class="press-label" data-i18n="press.photos">Press photographs</p><p class="press-status" data-i18n="press.zip">Download ZIP ↗</p></a>
+      </div>
+    </section>
 
-  for (let i = 0; i < 20; i++) {
-    const pixel = document.createElement("div");
-    pixel.classList.add("pixel");
+  </main>
+  <footer><span>© Kaspar Vig</span><span><a href="#press" data-i18n="footer.press">Press</a> · <a href="#top" data-i18n="footer.top">Back to top ↑</a></span></footer>
+  <div class="lightbox" id="image-lightbox" role="dialog" aria-modal="true" aria-label="Photography preview" hidden>
+    <button class="lightbox-close" type="button" aria-label="Close image preview">×</button>
+    <img class="lightbox-image" alt="">
+  </div>
+  <div class="project-lightbox" id="visual-project-lightbox" role="dialog" aria-modal="true" aria-labelledby="visual-project-lightbox-title" hidden>
+    <div class="project-lightbox-surface">
+      <div class="project-lightbox-bar"><p class="project-lightbox-title" id="visual-project-lightbox-title"></p><button class="lightbox-close project-lightbox-close" type="button" aria-label="Close project gallery">×</button></div>
+      <div class="project-lightbox-gallery">
+        <button class="project-lightbox-nav" type="button" data-project-gallery-action="previous" aria-label="Previous image">←</button>
+        <figure class="project-lightbox-figure"><img class="project-lightbox-image" alt=""><figcaption class="project-lightbox-count"></figcaption></figure>
+        <button class="project-lightbox-nav" type="button" data-project-gallery-action="next" aria-label="Next image">→</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    const languageStorageKey = "kaspar-vig-language";
+    const englishContent = { text: {}, html: {} };
+    document.querySelectorAll("[data-i18n]").forEach((element) => { englishContent.text[element.dataset.i18n] = element.textContent; });
+    document.querySelectorAll("[data-i18n-html]").forEach((element) => { englishContent.html[element.dataset.i18nHtml] = element.innerHTML; });
+    const danishContent = {
+      text: {
+        "nav.visual": "Installation / visuelt arbejde", "nav.music": "Musik", "nav.photography": "Fotografi", "nav.contact": "Kontakt", "nav.press": "Presse",
+        "current.heading": "Aktuelle projekter", "current.stardust.description": "Scenografi sammen med Michel Winckler til en immersiv liveperformance, der væver bevægelse, spoken word, livemusik og installation sammen som en del af Black Hole Week 2026.",
+        "current.literature.title": "Scenografi til Troels Abrahamsen", "current.literature.description": "Scenografi til Troels Abrahamsens performance ved Sydhavnens Litteraturfestival i Karens Minde Kulturhus.",
+        "current.across.title": "Interaktiv lysinstallation til ACROSS Festival", "current.across.description": "Jeg udvikler en interaktiv lysinstallation til ACROSS Festival, en festival for klassisk musik med NOVO Quartet på Nørrebro.",
+        "current.churchchill.title": "VJ / live visuals til ChurchChill no 51", "current.novo.title": "Interaktiv lysinstallation til NOVO Quartet",
+        "visual.heading": "Installation / visuelt arbejde", "visual.royalTheatre": "Det Kongelige Teater",
+        "music.heading": "Musik", "music.latest": "Seneste udgivelse", "music.p8": "I rotation på P8 Jazz.", "music.new": "Ny musik", "music.description": "Jeg arbejder i øjeblikket på ny musik til udgivelse i 2027 med støtte fra Statens Kunstfond.",
+        "photography.heading": "Fotografi", "contact.heading": "Kontakt", "contact.photoBy": "Foto af", "press.heading": "Presse", "press.cv": "CV / resume", "press.pdf": "Download PDF ↗", "press.photos": "Pressefotos", "press.zip": "Download ZIP ↗", "footer.press": "Presse", "footer.top": "Til toppen ↑",
+        "controls.editCrop": "Rediger beskæring", "controls.copyCrop": "Kopiér beskæringsindstillinger"
+      },
+      html: {
+        "current.stardust.meta": "26. august 2026<br>KoncertKirken, København", "current.literature.meta": "6. september 2026<br>Karens Minde Kulturhus, København", "current.across.meta": "12.-13. september 2026<br>LiteraturHaus, København", "current.churchchill.meta": "9. oktober 2026<br>Brorsons Kirke, København", "current.novo.meta": "29. oktober 2026<br>Rundetårn, København",
+        "current.stardust.title": "Scenografi til <em>Your Borrowed Stardust</em>",
+        "current.stardust.collaboration": "I samarbejde med <a href=\"https://the-center-of-gravity.com/\" target=\"_blank\" rel=\"noreferrer\">Centre of Gravity</a> og den tværdisciplinære kunstner og forsker <a href=\"https://www.yonderartscience.com/\" target=\"_blank\" rel=\"noreferrer\">Clara Ferreira Cores</a>.",
+        "current.churchchill.description": "Live visuals sammen med <a href=\"https://www.instagram.com/gemmergemmer/?hl=da\" target=\"_blank\" rel=\"noreferrer\">Søren Gemmer</a> til ChurchChill no 51 i Brorsons Kirke under Kulturnatten.",
+        "current.novo.description": "En interaktiv lysinstallation til NOVO Quartets koncert i Bibliotekssalen, hvor musik og lys mødes som en del af udstillingen <em>Light Echoes</em>.",
+        "visual.balling": "Co-producer og scenograf på <em>Musikalske Balling</em> i DR Koncerthuset, skabt i anledning af filminstruktør Erik Ballings 100-års fødselsdag. Jeg designede og byggede et særligt sæt af ti projektionsrammer til koncerten. Hovedproducer: <a href=\"https://www.caecilieballing.com/\" target=\"_blank\" rel=\"noreferrer\">Cæcilie Balling</a>.",
+        "visual.hermes": "Scenografi og live visuals til <a href=\"https://www.christianbalvig.com/\" target=\"_blank\" rel=\"noreferrer\">Christian Balvig</a> og <a href=\"https://www.ensemblehermes.dk/\" target=\"_blank\" rel=\"noreferrer\">Ensemble Hermes</a> i Musikhuset Aarhus. Jeg skabte analoge videoanimationer af manipuleret 8 mm-film og arkivmateriale, projiceret på en mosaik af lærreder omkring ensemblet.",
+        "visual.fantastiske": "Scenografi og propdesign til <em>Den fantastiske bus</em> på Det Kongelige Teater. Jeg designede og byggede den scene-synthesizer, der indgår i teaterbearbejdelsen af Jakob Martin Strids bog.",
+        "visual.xenon": "Scenografi til <a href=\"https://girlsinairports.com/\" target=\"_blank\" rel=\"noreferrer\">Girls in Airports</a>' residency på XENON under Copenhagen Jazz Festival, i samarbejde med <a href=\"https://www.diktakrom.com/\" target=\"_blank\" rel=\"noreferrer\">DIKTAKROM</a>. En levende lampe, der pulserede med musikken, var installationens centrum.",
+        "visual.ekko": "Jeg tog initiativ til og kuraterede EKKO PARK, en minifestival i Park Bio under Copenhagen Jazz Festival. Programmet samlede film, koncerter og live visuals, herunder <em>Where Music Grows</em> og koncerter med <a href=\"https://www.caecilieballing.com/\" target=\"_blank\" rel=\"noreferrer\">Cæcilie Balling</a> &amp; <a href=\"https://dybfoelt.dk/\" target=\"_blank\" rel=\"noreferrer\">Dybfølt</a>, <a href=\"https://troelsabrahamsen.com/\" target=\"_blank\" rel=\"noreferrer\">Troels Abrahamsen</a> og <a href=\"https://www.christianbalvig.com/\" target=\"_blank\" rel=\"noreferrer\">Christian Balvig</a>. Jeg skabte live visuals.",
+        "music.listen": "Lyt til <em>Somnium Corolla</em> ↗"
+      }
+    };
+    const languageUi = {
+      en: { editCrop: "Edit crop", finishEditing: "Finish editing", copyCrop: "Copy crop settings", copied: "Copied" },
+      da: { editCrop: "Rediger beskæring", finishEditing: "Afslut redigering", copyCrop: "Kopiér beskæringsindstillinger", copied: "Kopieret" }
+    };
+    let currentLanguage = "en";
+    const setLanguage = (language) => {
+      currentLanguage = language === "da" ? "da" : "en";
+      const content = currentLanguage === "da" ? danishContent : englishContent;
+      document.documentElement.lang = currentLanguage;
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        const value = content.text[element.dataset.i18n];
+        if (value) element.textContent = value;
+      });
+      document.querySelectorAll("[data-i18n-html]").forEach((element) => {
+        const value = content.html[element.dataset.i18nHtml];
+        if (value) element.innerHTML = value;
+      });
+      document.querySelectorAll("[data-language]").forEach((button) => {
+        const active = button.dataset.language === currentLanguage;
+        if (active) button.setAttribute("aria-current", "page");
+        else button.removeAttribute("aria-current");
+      });
+      window.localStorage.setItem(languageStorageKey, currentLanguage);
+    };
+    document.querySelectorAll("[data-language]").forEach((button) => {
+      button.addEventListener("click", () => setLanguage(button.dataset.language));
+    });
+    setLanguage(window.localStorage.getItem(languageStorageKey) || new URLSearchParams(window.location.search).get("lang") || "en");
 
-    pixel.style.left = Math.random() * rect.width + "px";
-    pixel.style.top = Math.random() * rect.height + "px";
+    const cropStorageKey = "kaspar-vig-crop-positions";
+    const browserCropPositions = (() => {
+      try { return JSON.parse(window.localStorage.getItem(cropStorageKey)) || {}; }
+      catch (error) { return {}; }
+    })();
+    const cropPositions = { ...browserCropPositions };
+    const cropKey = (image) => image.getAttribute("src");
+    const clamp = (value) => Math.max(0, Math.min(100, value));
+    const saveCropPositions = () => {
+      window.localStorage.setItem(cropStorageKey, JSON.stringify(cropPositions));
+      fetch("/api/crops", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cropPositions)
+      }).catch(() => {});
+    };
+    const applyCropPosition = (image) => {
+      const position = cropPositions[cropKey(image)];
+      if (position) image.style.objectPosition = `${position.x}% ${position.y}%`;
+    };
 
-    pixel.style.background =
-      ["#fff","#ff0055","#00e5ff","#ffd23f"]
-      [Math.floor(Math.random()*4)];
+    document.querySelectorAll(".carousel-card img").forEach((image) => {
+      applyCropPosition(image);
+      image.addEventListener("pointerdown", (event) => {
+        const carousel = image.closest(".carousel");
+        if (!carousel.classList.contains("carousel--editing")) return;
+        const current = cropPositions[cropKey(image)] || { x: 50, y: 50 };
+        const rect = image.getBoundingClientRect();
+        image.setPointerCapture(event.pointerId);
+        image.dataset.cropDrag = JSON.stringify({
+          x: current.x,
+          y: current.y,
+          pointerX: event.clientX,
+          pointerY: event.clientY,
+          width: rect.width,
+          height: rect.height
+        });
+        event.preventDefault();
+      });
+      image.addEventListener("pointermove", (event) => {
+        if (!image.dataset.cropDrag) return;
+        const drag = JSON.parse(image.dataset.cropDrag);
+        const position = {
+          x: clamp(drag.x - ((event.clientX - drag.pointerX) / drag.width) * 100),
+          y: clamp(drag.y - ((event.clientY - drag.pointerY) / drag.height) * 100)
+        };
+        cropPositions[cropKey(image)] = position;
+        image.style.objectPosition = `${position.x}% ${position.y}%`;
+      });
+      const stopDragging = () => {
+        if (!image.dataset.cropDrag) return;
+        delete image.dataset.cropDrag;
+        saveCropPositions();
+      };
+      image.addEventListener("pointerup", stopDragging);
+      image.addEventListener("pointercancel", stopDragging);
+    });
 
-    pixel.style.setProperty("--x", (Math.random()-0.5)*250);
-    pixel.style.setProperty("--y", (Math.random()-0.5)*180);
+    // Project-level settings make approved crops survive browser and computer restarts.
+    fetch("crop-positions.json", { cache: "no-store" })
+      .then((response) => response.ok ? response.json() : {})
+      .then((projectCropPositions) => {
+        Object.assign(cropPositions, projectCropPositions, browserCropPositions);
+        document.querySelectorAll(".carousel-card img").forEach(applyCropPosition);
+        if (Object.keys(browserCropPositions).length) saveCropPositions();
+      })
+      .catch(() => {});
 
-    title.appendChild(pixel);
+    const cropEditorAvailable = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost" || new URLSearchParams(window.location.search).has("edit-crops");
+    if (cropEditorAvailable) document.documentElement.classList.add("crop-editor");
 
-    setTimeout(() => {
-      pixel.remove();
-    }, 800);
-  }
-}
+    const moveCarousel = (carousel, direction) => {
+      const card = carousel.querySelector(".carousel-card");
+      const amount = card.offsetWidth + 18;
+      const atStart = carousel.scrollLeft <= 2;
+      const atEnd = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 2;
 
-title.addEventListener("mouseenter", burstPixels);
-title.addEventListener("mousemove", burstPixels);
+      if (direction === "next" && atEnd) carousel.scrollTo({ left: 0, behavior: "auto" });
+      else if (direction === "previous" && atStart) carousel.scrollTo({ left: carousel.scrollWidth, behavior: "auto" });
+      else carousel.scrollBy({ left: direction === "next" ? amount : -amount, behavior: "smooth" });
+    };
 
-const horse = document.getElementById("horse");
-horse.addEventListener("click", () => {
-  window.location.href = "index.html";
-});
-</script>
+    document.querySelectorAll("[data-carousel-action]").forEach((button) => {
+      button.addEventListener("click", () => moveCarousel(document.getElementById(button.dataset.carouselTarget), button.dataset.carouselAction));
+    });
+
+    const lightbox = document.getElementById("image-lightbox");
+    const lightboxImage = lightbox.querySelector(".lightbox-image");
+    const lightboxClose = lightbox.querySelector(".lightbox-close");
+    const closeLightbox = () => {
+      lightbox.hidden = true;
+      lightboxImage.removeAttribute("src");
+      document.body.style.overflow = "";
+    };
+    const openLightbox = (image) => {
+      lightboxImage.src = image.currentSrc || image.src;
+      lightboxImage.alt = image.alt;
+      lightbox.hidden = false;
+      document.body.style.overflow = "hidden";
+      lightboxClose.focus();
+    };
+    document.querySelectorAll("#photography-carousel .carousel-card img").forEach((image) => {
+      image.addEventListener("click", () => {
+        if (!image.closest(".carousel--editing")) openLightbox(image);
+      });
+    });
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+    lightboxClose.addEventListener("click", closeLightbox);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !lightbox.hidden) closeLightbox();
+    });
+
+    const visualProjectGalleries = {
+      balling: {
+        title: "Musikalske Balling",
+        images: [
+          { src: "assets/installations/balling-8.jpg", alt: "Installation from Musikalske Balling" },
+          { src: "assets/installations/balling-img-5601.jpg", alt: "Installation from Musikalske Balling" },
+          { src: "assets/installations/balling-img-5628.jpg", alt: "Installation from Musikalske Balling" }
+        ]
+      },
+      hermes: {
+        title: "Christian Balvig & Ensemble Hermes",
+        images: [
+          { src: "assets/installations/hermes-balvig-concert-screen.jpg", alt: "Christian Balvig and Ensemble Hermes" }
+        ]
+      },
+      "xenon-girls-in-airports": {
+        title: "Girls in Airports / XENON",
+        images: [
+          { src: "assets/installations/xenon-girls-in-airports/xenon-01.jpg", alt: "Scenography for Girls in Airports at XENON" },
+          { src: "assets/installations/xenon-girls-in-airports/xenon-02.jpg", alt: "Scenography for Girls in Airports at XENON" }
+        ]
+      },
+      "ekko-park": {
+        title: "EKKO PARK",
+        images: [
+          { src: "assets/installations/ekko-park-10023112.jpg", alt: "EKKO PARK at Park Bio" },
+          { src: "assets/installations/ekko-park-10023118.jpg", alt: "EKKO PARK at Park Bio" }
+        ]
+      },
+      "fantastiske-bus": {
+        title: "Den fantastiske bus",
+        images: [
+          { src: "assets/installations/fantastiske-bus/kgl-synth-and-actors.jpg", alt: "Cast with the synthesizer in Den fantastiske bus" },
+          { src: "assets/installations/fantastiske-bus/synth-01.jpg", alt: "Production image from Den fantastiske bus" },
+          { src: "assets/installations/fantastiske-bus/synth-02.jpg", alt: "Production image from Den fantastiske bus" },
+          { src: "assets/installations/fantastiske-bus/synth-03.jpg", alt: "Production image from Den fantastiske bus" },
+          { src: "assets/installations/fantastiske-bus/synth-04.jpg", alt: "Production image from Den fantastiske bus" },
+          { src: "assets/installations/fantastiske-bus/synth-05.jpg", alt: "Production image from Den fantastiske bus" }
+        ]
+      }
+    };
+    const projectLightbox = document.getElementById("visual-project-lightbox");
+    const projectLightboxImage = projectLightbox.querySelector(".project-lightbox-image");
+    const projectLightboxTitle = projectLightbox.querySelector(".project-lightbox-title");
+    const projectLightboxCount = projectLightbox.querySelector(".project-lightbox-count");
+    const projectLightboxClose = projectLightbox.querySelector(".project-lightbox-close");
+    const projectLightboxNavigation = projectLightbox.querySelectorAll("[data-project-gallery-action]");
+    let openProjectGallery = null;
+    let openProjectGalleryIndex = 0;
+    let projectGalleryTrigger = null;
+    const renderProjectGalleryImage = () => {
+      const gallery = visualProjectGalleries[openProjectGallery];
+      const image = gallery.images[openProjectGalleryIndex];
+      projectLightboxTitle.textContent = gallery.title;
+      projectLightboxImage.src = image.src;
+      projectLightboxImage.alt = image.alt;
+      projectLightboxCount.textContent = `${openProjectGalleryIndex + 1} / ${gallery.images.length}`;
+      const canNavigate = gallery.images.length > 1;
+      projectLightboxCount.hidden = !canNavigate;
+      projectLightboxNavigation.forEach((button) => { button.hidden = !canNavigate; });
+    };
+    const closeProjectGallery = () => {
+      projectLightbox.hidden = true;
+      projectLightboxImage.removeAttribute("src");
+      document.body.style.overflow = "";
+      if (projectGalleryTrigger) projectGalleryTrigger.focus();
+    };
+    const showProjectGalleryImage = (direction) => {
+      const gallery = visualProjectGalleries[openProjectGallery];
+      openProjectGalleryIndex = (openProjectGalleryIndex + direction + gallery.images.length) % gallery.images.length;
+      renderProjectGalleryImage();
+    };
+    document.querySelectorAll(".visual-project-open").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (button.closest(".carousel--editing")) return;
+        openProjectGallery = button.closest("[data-project-gallery]").dataset.projectGallery;
+        openProjectGalleryIndex = 0;
+        projectGalleryTrigger = button;
+        renderProjectGalleryImage();
+        projectLightbox.hidden = false;
+        document.body.style.overflow = "hidden";
+        projectLightboxClose.focus();
+      });
+    });
+    document.querySelectorAll("[data-project-gallery-action]").forEach((button) => {
+      button.addEventListener("click", () => showProjectGalleryImage(button.dataset.projectGalleryAction === "next" ? 1 : -1));
+    });
+    projectLightbox.addEventListener("click", (event) => {
+      if (event.target === projectLightbox) closeProjectGallery();
+    });
+    projectLightboxClose.addEventListener("click", closeProjectGallery);
+    document.addEventListener("keydown", (event) => {
+      if (projectLightbox.hidden) return;
+      if (event.key === "Escape") closeProjectGallery();
+      if (event.key === "ArrowLeft") showProjectGalleryImage(-1);
+      if (event.key === "ArrowRight") showProjectGalleryImage(1);
+    });
+
+    const autoTimers = new Map();
+    const autoRollDelay = 9000;
+    const startAutoRoll = (carousel) => {
+      if (!autoTimers.has(carousel)) autoTimers.set(carousel, window.setInterval(() => moveCarousel(carousel, "next"), autoRollDelay));
+    };
+    const stopAutoRoll = (carousel) => {
+      const timer = autoTimers.get(carousel);
+      if (timer) window.clearInterval(timer);
+      autoTimers.delete(carousel);
+    };
+    document.querySelectorAll("[data-carousel-auto]").forEach(startAutoRoll);
+
+    document.querySelectorAll("[data-crop-toggle]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const carousel = document.getElementById(button.dataset.cropToggle);
+        const editing = !carousel.classList.contains("carousel--editing");
+        carousel.classList.toggle("carousel--editing", editing);
+        button.setAttribute("aria-pressed", String(editing));
+        button.textContent = editing ? languageUi[currentLanguage].finishEditing : languageUi[currentLanguage].editCrop;
+        if (editing) stopAutoRoll(carousel);
+        else startAutoRoll(carousel);
+      });
+    });
+
+    document.querySelectorAll("[data-crop-export]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const exportText = JSON.stringify(cropPositions, null, 2);
+        try {
+          await navigator.clipboard.writeText(exportText);
+          button.textContent = languageUi[currentLanguage].copied;
+          window.setTimeout(() => { button.textContent = languageUi[currentLanguage].copyCrop; }, 1800);
+        } catch (error) {
+          window.prompt("Copy crop settings", exportText);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
